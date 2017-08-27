@@ -1,7 +1,7 @@
 pragma solidity ^0.4.16;
 
 
-import "./Structures.sol";
+// import "./Structures.sol";
 
 
 contract EmploymentHistory {
@@ -12,6 +12,13 @@ contract EmploymentHistory {
     // organization ids -> list of employees
     mapping (uint => uint[]) public organizationsToPeople;
 
+    enum EmploymentStatus { In, Out, Fired }
+
+    struct EmpRecord {
+        uint organizationId;
+        uint dateCreated;
+        EmploymentStatus status;
+    }
 
     modifier onlyOwner() {
         if (msg.sender != owner) {throw;}
@@ -38,7 +45,7 @@ contract EmploymentHistory {
     }
 
     function getEmploymentHistory(uint personId) constant returns (uint, uint, EmploymentStatus) {
-        EmpRecord storage record = peopleToEmpRecords[personId];
+        EmpRecord[] storage records = peopleToEmpRecords[personId];
         return (record.organizationId, record.dateCreated, record.status);
     }
 
