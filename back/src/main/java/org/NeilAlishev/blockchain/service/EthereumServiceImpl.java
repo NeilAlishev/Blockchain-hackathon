@@ -1,8 +1,10 @@
 package org.NeilAlishev.blockchain.service;
 
+import org.NeilAlishev.blockchain.wrapper_files.EmploymentHistory;
 import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
-import org.web3j.abi.datatypes.Utf8String;
+import org.springframework.stereotype.Service;
+import org.web3j.abi.datatypes.generated.Int256;
+import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
@@ -14,7 +16,7 @@ import java.math.BigInteger;
 /**
  * @author Aidar Shaifutdinov.
  */
-@Component
+@Service
 public class EthereumServiceImpl implements EthereumService {
 
     private final Web3j web3j;
@@ -32,29 +34,28 @@ public class EthereumServiceImpl implements EthereumService {
         System.out.println("Account address: " + credentials.getAddress());
     }
 
-//    @Override
-//    public String deployContract() {
-//        Greeter contract = null;
-//        try {
-//            contract = Greeter.deploy(web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT, BigInteger.ZERO,
-//                    new Utf8String("Test contract!!!")).get();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        return contract != null ? contract.getContractAddress() : null;
-//    }
-//
-//    @Override
-//    public String callContract(String address) {
-//        Greeter contract = Greeter.load(
-//                address, web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT);
-//
-//        try {
-//            return contract.greet().get().getValue();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-//    }
+    @Override
+    public String deployContract() {
+        EmploymentHistory contract = null;
+        try {
+            contract = EmploymentHistory.deploy(web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT, BigInteger.ZERO).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return contract != null ? contract.getContractAddress() : null;
+    }
+
+    @Override
+    public Int256 callContract(String address) {
+        EmploymentHistory contract = EmploymentHistory.load(
+                address, web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT);
+
+        try {
+            return contract.getCurrentEmployment(new Uint256(1)).get();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
 }

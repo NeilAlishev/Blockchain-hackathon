@@ -9,6 +9,7 @@ import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
 
@@ -28,6 +29,7 @@ public class Test {
     private static File walletFile;
     private static String networkUrl;
     private static String password;
+    private static String contractAddress;
 
     public static void main(String[] args) throws Exception {
         Properties prop = new Properties();
@@ -36,18 +38,34 @@ public class Test {
         walletFile = new File(prop.getProperty("walletFilePath"));
         networkUrl = prop.getProperty("networkUrl");
         password = prop.getProperty("password");
+        contractAddress = prop.getProperty("contractAddress");
 
         Web3j web3j = Web3j.build(new HttpService(networkUrl));
-        Credentials credentials = loadCredentials();
-//        System.out.println(getAccountBalance(web3j, credentials.getAddress()));
-//        System.out.println(getAccountBalance(web3j, secondAddress));
-//        String contractAddress = deployTestContract(web3j);
 
-        EmploymentHistory contract = loadEmploymentHistory(web3j,
-                "0xe7d0faa2aad267126312ee9fd03a4817668159ff");
+        EmploymentHistory contract = loadEmploymentHistory(web3j, contractAddress);
 
+        addEmpRecordTest(contract);
+        getCurrentEmploymentTest(contract);
+        getEmpRecordsCountTest(contract);
+    }
+
+    private static void addEmpRecordTest(EmploymentHistory contract) throws ExecutionException, InterruptedException {
+        TransactionReceipt transactionReceipt = contract
+                .addEmpRecord(new Uint256(1), new Uint256(2), new Uint256(0)).get();
+
+        System.out.println(transactionReceipt);
+    }
+
+    private static void getCurrentEmploymentTest(EmploymentHistory contract)
+            throws ExecutionException, InterruptedException {
         Int256 employmentCount = contract.getCurrentEmployment(new Uint256(1)).get();
         System.out.println(employmentCount.getValue());
+    }
+
+    private static void getEmpRecordsCountTest(EmploymentHistory contract)
+            throws ExecutionException, InterruptedException {
+        Uint256 empRecordsCount = contract.getEmpRecordsCount(new Uint256(1)).get();
+        System.out.println(empRecordsCount.getValue());
     }
 
     private static Credentials loadCredentials() throws IOException, CipherException {
