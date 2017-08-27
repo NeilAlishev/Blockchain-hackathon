@@ -1,7 +1,6 @@
 package org.NeilAlishev.blockchain.util;
 
-import org.NeilAlishev.blockchain.wrapper_files.Greeter;
-import org.web3j.abi.datatypes.Utf8String;
+import org.NeilAlishev.blockchain.wrapper_files.EmploymentHistory;
 import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
@@ -35,7 +34,7 @@ public class DeployContract {
 
         Web3j web3j = Web3j.build(new HttpService(networkUrl));
         Credentials credentials = loadCredentials();
-        deployTestContract(web3j);
+        System.out.println(deployTestContract(web3j));
     }
 
     private static Credentials loadCredentials() throws IOException, CipherException {
@@ -46,11 +45,10 @@ public class DeployContract {
     private static String deployTestContract(Web3j web3j) throws Exception {
         Credentials credentials = WalletUtils.loadCredentials(password, walletFilePath);
 
-        Greeter contract = Greeter.deploy(web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT, BigInteger.ZERO,
-                new Utf8String("Test contract!!!")).get();
+        EmploymentHistory contract = EmploymentHistory.deploy(web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT, BigInteger.ZERO).get();
 
-        Utf8String greeting = contract.greet().get();
-        System.out.println(greeting.getValue());
+//        Utf8String greeting = contract.greet().get();
+//        System.out.println(greeting.getValue());
 
         return contract.getContractAddress();
     }
