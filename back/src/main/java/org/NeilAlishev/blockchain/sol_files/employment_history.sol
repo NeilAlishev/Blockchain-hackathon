@@ -37,8 +37,8 @@ contract EmploymentHistory {
     }
 
     // returns -1 if person is unemployed
-    function getCurrentEmployment(personId) contract returns (int) {
-        EmpRecord lastRecord = peopleToEmpRecords[personId][peopleToEmpRecords[personId].length - 1];
+    function getCurrentEmployment(uint personId) constant returns (int) {
+        EmpRecord storage lastRecord = peopleToEmpRecords[personId][peopleToEmpRecords[personId].length - 1];
 
         if(lastRecord.status != EmploymentStatus.In) {
             return -1;
