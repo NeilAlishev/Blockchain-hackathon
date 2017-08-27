@@ -1,9 +1,5 @@
 pragma solidity ^0.4.16;
 
-
-// import "./Structures.sol";
-
-
 contract EmploymentHistory {
 
     address owner;
@@ -15,9 +11,9 @@ contract EmploymentHistory {
     enum EmploymentStatus { In, Out, Fired }
 
     struct EmpRecord {
-    uint organizationId;
-    uint dateCreated;
-    EmploymentStatus status;
+        uint organizationId;
+        uint dateCreated;
+        EmploymentStatus status;
     }
 
     modifier onlyOwner() {
@@ -34,9 +30,9 @@ contract EmploymentHistory {
         require(uint(EmploymentStatus.Fired) >= status);
 
         peopleToEmpRecords[personId].push(EmpRecord({
-        organizationId: organizationId,
-        dateCreated: now,
-        status: EmploymentStatus(status)
+            organizationId: organizationId,
+            dateCreated: now,
+            status: EmploymentStatus(status)
         }));
     }
 
