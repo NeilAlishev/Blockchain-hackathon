@@ -15,9 +15,9 @@ contract EmploymentHistory {
     enum EmploymentStatus { In, Out, Fired }
 
     struct EmpRecord {
-        uint organizationId;
-        uint dateCreated;
-        EmploymentStatus status;
+    uint organizationId;
+    uint dateCreated;
+    EmploymentStatus status;
     }
 
     modifier onlyOwner() {
@@ -34,9 +34,9 @@ contract EmploymentHistory {
         require(uint(EmploymentStatus.Fired) >= status);
 
         peopleToEmpRecords[personId].push(EmpRecord({
-            organizationId: organizationId,
-            dateCreated: now,
-            status: EmploymentStatus(status)
+        organizationId: organizationId,
+        dateCreated: now,
+        status: EmploymentStatus(status)
         }));
     }
 
@@ -44,8 +44,12 @@ contract EmploymentHistory {
         return peopleToEmpRecords[personId].length;
     }
 
-    function getEmploymentHistory(uint personId) constant returns (uint, uint, EmploymentStatus) {
-        EmpRecord[] storage records = peopleToEmpRecords[personId];
+    function getEmploymentHistoryRecordsLength(uint personId) constant returns (uint) {
+        return peopleToEmpRecords[personId].length;
+    }
+
+    function getEmploymentHistory(uint personId, uint recordId) constant returns (uint, uint, EmploymentStatus) {
+        EmpRecord storage record = peopleToEmpRecords[personId][recordId];
         return (record.organizationId, record.dateCreated, record.status);
     }
 
