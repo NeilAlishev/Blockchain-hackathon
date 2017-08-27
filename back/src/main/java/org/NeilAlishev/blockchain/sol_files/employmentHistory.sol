@@ -1,6 +1,6 @@
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.15;
 
-contract EmploymentHistory {
+contract employmentHistory {
 
     address owner;
     // person ids -> person's employment history
@@ -21,21 +21,22 @@ contract EmploymentHistory {
         _;
     }
 
-    function EmploymentHistory() {
+    function employmentHistory() {
         owner = msg.sender;
     }
 
-    /* ------- PUBLIC FUNCTIONS ------- */
-
     function addEmpRecord(uint personId, uint organizationId, uint status) {
         require(status <= uint(EmploymentStatus.Fired));
-
-        EmpRecord memory lastRecord = getLastRecord(personId);
-        if (status == uint(EmploymentStatus.In)) {
-            require(uint(lastRecord.status) > uint(EmploymentStatus.In));
+        if (empRecordOf[personId].length == 0) {
+            require(status == uint(EmploymentStatus.In));
         } else {
-            require(uint(lastRecord.status) == uint(EmploymentStatus.In) &&
-                    lastRecord.organizationId == organizationId);
+            EmpRecord storage lastRecord = empRecordOf[personId][empRecordOf[personId].length - 1];
+            if (status == uint(EmploymentStatus.In)) {
+                require(uint(lastRecord.status) > uint(EmploymentStatus.In));
+            } else {
+                require(uint(lastRecord.status) == uint(EmploymentStatus.In) &&
+                        lastRecord.organizationId == organizationId);
+            }
         }
 
         empRecordOf[personId].push(EmpRecord({
@@ -47,7 +48,10 @@ contract EmploymentHistory {
 
     // returns -1 if person is unemployed
     function getCurrentEmployment(uint personId) constant returns (int) {
-        EmpRecord memory lastRecord = getLastRecord(personId);
+        if (empRecordOf[personId].length == 0) {
+            return -1;
+        }
+        EmpRecord storage lastRecord = empRecordOf[personId][empRecordOf[personId].length - 1];
 
         if (lastRecord.status != EmploymentStatus.In) {
             return -1;
@@ -67,11 +71,5 @@ contract EmploymentHistory {
 
     function getOrganisationEmployees(uint organizationId) constant returns (uint[]) {
         return employeesOf[organizationId];
-    }
-
-    /* ------- INTERNAL FUNCTIONS ------- */
-
-    function getLastRecord(uint personId) internal returns (EmpRecord) {
-        empRecordOf[personId][empRecordOf[personId].length - 1];
     }
 }
