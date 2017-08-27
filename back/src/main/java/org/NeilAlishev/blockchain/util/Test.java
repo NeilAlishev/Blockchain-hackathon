@@ -49,18 +49,6 @@ public class Test {
         return credentials;
     }
 
-//    private static String deployTestContract(Web3j web3j) throws Exception {
-//        Credentials credentials = WalletUtils.loadCredentials(password,
-//                walletFileSource);
-//
-//        Greeter contract = Greeter.deploy(web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT, BigInteger.ZERO,
-//                new Utf8String("Test contract!!!")).get();
-//
-//        Utf8String greeting = contract.greet().get();
-//        System.out.println(greeting.getValue());
-//
-//        return contract.getContractAddress();
-//    }
 //
 //    private static void testContractLoading(Web3j web3j, String contractAddress) throws IOException, CipherException, ExecutionException, InterruptedException {
 //        Credentials credentials = WalletUtils.loadCredentials(password, walletFileSource);
