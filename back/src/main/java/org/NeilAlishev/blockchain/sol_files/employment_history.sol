@@ -43,7 +43,7 @@ contract EmploymentHistory {
         if(lastRecord.status != EmploymentStatus.In) {
             return -1;
         } else {
-            return lastRecord.organizationId;
+            return int(lastRecord.organizationId);
         }
     }
 
