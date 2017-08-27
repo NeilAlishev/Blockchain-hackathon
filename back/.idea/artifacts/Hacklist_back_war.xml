@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="Hacklist-back:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="Hacklist-back-1.0.0.war">
+      <element id="artifact" artifact-name="Hacklist-back:war exploded" />
+    </root>
+  </artifact>
+</component>
