@@ -37,7 +37,7 @@ contract EmploymentHistory {
     }
 
     // returns -1 if person is unemployed
-    function getCurrentEmployment(personId) contract returns (int) {
+    function getCurrentEmployment(personId) constant returns (int) {
         EmpRecord lastRecord = peopleToEmpRecords[personId][peopleToEmpRecords[personId].length - 1];
 
         if(lastRecord.status != EmploymentStatus.In) {
@@ -51,8 +51,12 @@ contract EmploymentHistory {
         return peopleToEmpRecords[personId].length;
     }
 
-    function getEmploymentHistory(uint personId) constant returns (uint, uint, EmploymentStatus) {
-        EmpRecord[] storage records = peopleToEmpRecords[personId];
+    function getEmploymentHistoryRecordsLength(uint personId) constant returns (uint) {
+        return peopleToEmpRecords[personId].length;
+    }
+
+    function getEmploymentHistory(uint personId, uint recordId) constant returns (uint, uint, EmploymentStatus) {
+        EmpRecord storage record = peopleToEmpRecords[personId][recordId];
         return (record.organizationId, record.dateCreated, record.status);
     }
 
