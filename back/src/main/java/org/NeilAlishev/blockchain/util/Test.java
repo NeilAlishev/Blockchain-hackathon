@@ -17,8 +17,10 @@ import org.web3j.tx.Transfer;
 import org.web3j.utils.Convert;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
 /**
@@ -26,20 +28,31 @@ import java.util.concurrent.ExecutionException;
  *         Just a bunch of test methods.
  */
 public class Test {
-    private static final String WALLET_FILE_SOURCE = "/Users/neil/Library/Ethereum/keystore/UTC--2017-08-26T16-48-19.921000000Z--db96da50a4d2893d019719906c6a942047eea371.json";
-    private static final String firstAddress = "0xdb96da50a4d2893d019719906c6a942047eea371";
-    private static final String secondAddress = "0xe4de7f2356f6941679844d923a945c3cbda4eb9a";
 
-    public static void main(String[] args) throws ExecutionException,
-            InterruptedException, IOException, CipherException, TransactionTimeoutException {
-        Web3j web3j = Web3j.build(new HttpService());
-//        getClientVersion(web3j);
-//        sendEther(web3j, secondAddress);
-//        System.out.println(getAccountBalance(web3j, firstAddress));
-//        System.out.println(getAccountBalance(web3j, secondAddress));
+    private static String WALLET_FILE_SOURCE;
+    private static String firstAddress;
+    private static String secondAddress;
+    private static String networkUrl;
+    private static String walletPassword;
+
+    public static void main(String[] args) throws ExecutionException, InterruptedException, IOException, CipherException, TransactionTimeoutException {
+
+        Properties prop = new Properties();
+        InputStream input = Test.class.getClassLoader().getResourceAsStream("properties/geth.properties");
+        prop.load(input);
+        WALLET_FILE_SOURCE = prop.getProperty("walletFileSource");
+        firstAddress = prop.getProperty("firstAddress");
+        secondAddress = prop.getProperty("secondAddress");
+        networkUrl = prop.getProperty("networkUrl");
+        walletPassword = prop.getProperty("walletPassword");
+
+        Web3j web3j = Web3j.build(new HttpService(networkUrl));
+        System.out.println(getAccountBalance(web3j, firstAddress));
+        System.out.println(getAccountBalance(web3j, secondAddress));
         String contractAddress = deployTestContract(web3j);
         testContractLoading(web3j, contractAddress);
     }
+
 
     private static void getClientVersion(Web3j web3j) throws ExecutionException, InterruptedException {
         Web3ClientVersion clientVersion = web3j.web3ClientVersion().sendAsync().get();
@@ -48,17 +61,16 @@ public class Test {
     }
 
     private static void sendEther(Web3j web3j, String to) throws IOException, CipherException, InterruptedException, ExecutionException, TransactionTimeoutException {
-        Credentials credentials = WalletUtils.loadCredentials("password",
-                WALLET_FILE_SOURCE);
+        Credentials credentials = WalletUtils.loadCredentials("password", WALLET_FILE_SOURCE);
 
         TransactionReceipt transactionReceipt = Transfer.sendFundsAsync(web3j, credentials,
-                "0xe4de7f2356f6941679844d923a945c3cbda4eb9a", BigDecimal.valueOf(0.2), Convert.Unit.ETHER).get();
+                secondAddress, BigDecimal.valueOf(0.2), Convert.Unit.ETHER).get();
 
         System.out.println(transactionReceipt);
     }
 
     private static String deployTestContract(Web3j web3j) throws IOException, CipherException, ExecutionException, InterruptedException {
-        Credentials credentials = WalletUtils.loadCredentials("password",
+        Credentials credentials = WalletUtils.loadCredentials(walletPassword,
                 WALLET_FILE_SOURCE);
 
         Greeter contract = Greeter.deploy(web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT, BigInteger.ZERO,
@@ -71,8 +83,7 @@ public class Test {
     }
 
     private static void testContractLoading(Web3j web3j, String contractAddress) throws IOException, CipherException, ExecutionException, InterruptedException {
-        Credentials credentials = WalletUtils.loadCredentials("password",
-                WALLET_FILE_SOURCE);
+        Credentials credentials = WalletUtils.loadCredentials(walletPassword, WALLET_FILE_SOURCE);
 
         Greeter contract = Greeter.load(contractAddress, web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT);
 

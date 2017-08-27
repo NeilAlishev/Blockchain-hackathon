@@ -1,0 +1,5 @@
+walletFileSource = /Users/aleksandrpliskin/Library/Ethereum/testnet/keystore/UTC--2017-08-27T16-07-40.932000000Z--b2006ae28f0885bb28a60465f7dffa2bb546e9c0.json
+firstAddress = 0xF143daCb1d75d67653629bA08fFb41A3b4756890
+secondAddress = 0x8e2F4A52784f8BE1Ef907c2c9f92ec4a70289010
+networkUrl = http://hackaton.izx.io:18555
+walletPassword = 1234
