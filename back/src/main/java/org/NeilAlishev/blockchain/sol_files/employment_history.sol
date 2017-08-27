@@ -36,14 +36,25 @@ contract EmploymentHistory {
         }));
     }
 
+    // returns -1 if person is unemployed
+    function getCurrentEmployment(personId) contract returns (int) {
+        EmpRecord lastRecord = peopleToEmpRecords[personId][peopleToEmpRecords[personId].length - 1];
+
+        if(lastRecord.status != EmploymentStatus.In) {
+            return -1;
+        } else {
+            return lastRecord.organizationId;
+        }
+    }
+
     function getEmploymentCount(uint personId) constant returns (uint) {
         return peopleToEmpRecords[personId].length;
     }
 
-    // function getEmploymentHistory(uint personId) constant returns (uint, uint, EmploymentStatus) {
-    //     EmpRecord[] storage records = peopleToEmpRecords[personId];
-    //     return (record.organizationId, record.dateCreated, record.status);
-    // }
+    function getEmploymentHistory(uint personId) constant returns (uint, uint, EmploymentStatus) {
+        EmpRecord[] storage records = peopleToEmpRecords[personId];
+        return (record.organizationId, record.dateCreated, record.status);
+    }
 
     function getOrganisationEmployees(uint organizationId) constant returns (uint[]) {
         return organizationsToPeople[organizationId];
