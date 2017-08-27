@@ -3,5 +3,5 @@
 target/
 
 compile.sh
-*.properties
+persistence.properties
 .DS_Store
