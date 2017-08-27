@@ -5,8 +5,8 @@ package org.NeilAlishev.blockchain.service;
  */
 public interface EthereumService {
 
-    String deployContract();
-
-    String callContract(String address);
+//    String deployContract();
+//
+//    String callContract(String address);
 
 }
