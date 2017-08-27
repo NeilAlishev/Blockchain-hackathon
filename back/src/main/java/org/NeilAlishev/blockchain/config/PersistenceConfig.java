@@ -75,7 +75,7 @@ public class PersistenceConfig implements EnvironmentAware {
                 new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter);
         entityManagerFactory.setDataSource(dataSource());
-        entityManagerFactory.setPackagesToScan("org.NeilAlishev.hacklist.model");
+        entityManagerFactory.setPackagesToScan("org.NeilAlishev.blockchain.model");
         entityManagerFactory.afterPropertiesSet();
         return entityManagerFactory.getObject();
     }

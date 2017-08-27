@@ -11,7 +11,6 @@ import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
-import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
 
@@ -35,6 +34,8 @@ public class Test {
     private static String password;
     private static String contractAddress;
 
+    private static EmploymentHistory contract;
+
     public static void main(String[] args) throws Exception {
         Properties prop = new Properties();
         InputStream input = Test.class.getClassLoader().getResourceAsStream("properties/geth.properties");
@@ -46,7 +47,7 @@ public class Test {
 
         Web3j web3j = Web3j.build(new HttpService(networkUrl));
 
-        EmploymentHistory contract = loadEmploymentHistory(web3j, contractAddress);
+        contract = loadEmploymentHistoryContract(web3j, contractAddress);
 
         addEmpRecordTest(contract, new Uint256(1), new Uint256(2), new Uint256(0));
         addEmpRecordTest(contract, new Uint256(1), new Uint256(2), new Uint256(1));
@@ -60,18 +61,15 @@ public class Test {
 
     private static void addEmpRecordTest(EmploymentHistory contract, Uint256 personId, Uint256 organizationId,
                                          Uint256 status) throws ExecutionException, InterruptedException {
-        TransactionReceipt transactionReceipt = contract
-                .addEmpRecord(personId, organizationId, status).get();
+        contract.addEmpRecord(personId, organizationId, status).get();
     }
 
-    private static void getCurrentEmploymentTest(EmploymentHistory contract)
-            throws ExecutionException, InterruptedException {
+    private static void getCurrentEmploymentTest() throws Exception {
         Int256 employmentCount = contract.getCurrentEmployment(new Uint256(1)).get();
         System.out.println(employmentCount.getValue());
     }
 
-    private static void getEmpRecordsCountTest(EmploymentHistory contract)
-            throws ExecutionException, InterruptedException {
+    private static void getEmpRecordsCountTest() throws Exception {
         Uint256 empRecordsCount = contract.getEmpRecordsCount(new Uint256(1)).get();
         System.out.println(empRecordsCount.getValue());
     }
@@ -103,11 +101,19 @@ public class Test {
         return ethGetBalance.getBalance();
     }
 
-    private static EmploymentHistory loadEmploymentHistory(Web3j web3j, String contractAddress)
+    private static EmploymentHistory loadEmploymentHistoryContract(Web3j web3j, String contractAddress)
             throws IOException, CipherException, ExecutionException, InterruptedException {
         Credentials credentials = WalletUtils.loadCredentials(password,
                 walletFile);
 
         return EmploymentHistory.load(contractAddress, web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT);
+    }
+
+    private static void getEmployees() throws Exception {
+        List<Integer> employees = contract.getOrganisationEmployees(new Uint256(2))
+                .get().getValue()
+                .stream().map(NumericType::getValue)
+                .map(BigInteger::intValue).collect(Collectors.toList());
+        System.out.println(employees);
     }
 }
