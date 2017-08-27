@@ -1,6 +1,8 @@
 package org.NeilAlishev.blockchain.util;
 
 import org.NeilAlishev.blockchain.wrapper_files.EmploymentHistory;
+import org.web3j.abi.datatypes.DynamicArray;
+import org.web3j.abi.datatypes.NumericType;
 import org.web3j.abi.datatypes.generated.Int256;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.CipherException;
@@ -17,8 +19,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 /**
  * @author Neil Alishev
@@ -44,16 +48,20 @@ public class Test {
 
         EmploymentHistory contract = loadEmploymentHistory(web3j, contractAddress);
 
-        addEmpRecordTest(contract);
-        getCurrentEmploymentTest(contract);
-        getEmpRecordsCountTest(contract);
+        addEmpRecordTest(contract, new Uint256(1), new Uint256(2), new Uint256(0));
+        addEmpRecordTest(contract, new Uint256(1), new Uint256(2), new Uint256(1));
+        addEmpRecordTest(contract, new Uint256(1), new Uint256(3), new Uint256(0));
+
+        System.out.println(getEmploymentHistoryTest(contract));
+//        getCurrentEmploymentTest(contract);
+//        getEmpRecordsCountTest(contract);
+
     }
 
-    private static void addEmpRecordTest(EmploymentHistory contract) throws ExecutionException, InterruptedException {
+    private static void addEmpRecordTest(EmploymentHistory contract, Uint256 personId, Uint256 organizationId,
+                                         Uint256 status) throws ExecutionException, InterruptedException {
         TransactionReceipt transactionReceipt = contract
-                .addEmpRecord(new Uint256(1), new Uint256(2), new Uint256(0)).get();
-
-        System.out.println(transactionReceipt);
+                .addEmpRecord(personId, organizationId, status).get();
     }
 
     private static void getCurrentEmploymentTest(EmploymentHistory contract)
@@ -66,6 +74,16 @@ public class Test {
             throws ExecutionException, InterruptedException {
         Uint256 empRecordsCount = contract.getEmpRecordsCount(new Uint256(1)).get();
         System.out.println(empRecordsCount.getValue());
+    }
+
+    private static List<Long> getEmploymentHistoryTest(EmploymentHistory contract)
+            throws ExecutionException, InterruptedException {
+        DynamicArray<Uint256> organizationIds = contract.getEmploymentHistory(new Uint256(1)).get();
+
+        return organizationIds
+                .getValue()
+                .stream().map(NumericType::getValue).map(BigInteger::longValue)
+                .collect(Collectors.toList());
     }
 
     private static Credentials loadCredentials() throws IOException, CipherException {
