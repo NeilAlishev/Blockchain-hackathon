@@ -45,15 +45,16 @@ public class Test {
 //        String contractAddress = deployTestContract(web3j);
 
         EmploymentHistory contract = loadEmploymentHistory(web3j,
-                "0xe7d0faa2aad267126312ee9fd03a4817668159ff");
+                "0xa7998d21eadcd53260f7354fe54c49a743a2e46d");
 
-        getCurrentEmploymentTest(contract);
+//        getCurrentEmploymentTest(contract);
 //        actOnPersonTest(contract);
+        getEmpRecordsCountTest(contract);
     }
 
-    private static void actOnPersonTest(EmploymentHistory contract) throws ExecutionException, InterruptedException {
+    private static void addEmpRecordTest(EmploymentHistory contract) throws ExecutionException, InterruptedException {
         TransactionReceipt transactionReceipt = contract
-                .actOnPerson(new Uint256(1), new Uint256(1), new Uint256(0)).get();
+                .addEmpRecord(new Uint256(1), new Uint256(1), new Uint256(0)).get();
 
         System.out.println(transactionReceipt);
     }
@@ -62,6 +63,12 @@ public class Test {
             throws ExecutionException, InterruptedException {
         Int256 employmentCount = contract.getCurrentEmployment(new Uint256(1)).get();
         System.out.println(employmentCount.getValue());
+    }
+
+    private static void getEmpRecordsCountTest(EmploymentHistory contract)
+            throws ExecutionException, InterruptedException {
+        Uint256 empRecordsCount = contract.getEmpRecordsCount(new Uint256(1)).get();
+        System.out.println(empRecordsCount.getValue());
     }
 
     private static Credentials loadCredentials() throws IOException, CipherException {

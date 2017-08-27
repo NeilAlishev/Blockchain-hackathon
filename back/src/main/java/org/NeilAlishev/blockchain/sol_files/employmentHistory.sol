@@ -29,6 +29,7 @@ contract EmploymentHistory {
 
     function addEmpRecord(uint personId, uint organizationId, uint status) {
         require(status <= uint(EmploymentStatus.Fired));
+
         EmpRecord memory lastRecord = getLastRecord(personId);
         if (status == uint(EmploymentStatus.In)) {
             require(uint(lastRecord.status) > uint(EmploymentStatus.In));
