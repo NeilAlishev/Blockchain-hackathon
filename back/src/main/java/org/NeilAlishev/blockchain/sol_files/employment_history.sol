@@ -1,18 +1,22 @@
 pragma solidity ^0.4.16;
 
+
 import "./Structures.sol";
 
+
 contract EmploymentHistory {
+
     address owner;
     // person ids -> person's employment history
-    mapping(uint => EmpRecord[]) public peopleToEmpRecords;
+    mapping (uint => EmpRecord[]) public peopleToEmpRecords;
     // organization ids -> list of employees
-    mapping(uint => uint[]) public organizationsToPeople;
+    mapping (uint => uint[]) public organizationsToPeople;
 
 
     modifier onlyOwner() {
-        if (msg.sender != owner) { throw; }
-        _; // Will be replaced with function body
+        if (msg.sender != owner) {throw;}
+        _;
+        // Will be replaced with function body
     }
 
     function EmploymentHistory() {
@@ -33,7 +37,13 @@ contract EmploymentHistory {
         return peopleToEmpRecords[personId].length;
     }
 
-    function getEmploymentHistory(uint personId) constant
-            returns (EmpRecord[]) {
+    function getEmploymentHistory(uint personId) constant returns (uint, uint, EmploymentStatus) {
+        EmpRecord storage record = peopleToEmpRecords[personId];
+        return (record.organizationId, record.dateCreated, record.status);
     }
+
+    function getOrganisationEmployees(uint organizationId) constant returns (uint[]) {
+        return organizationsToPeople[organizationId];
+    }
+
 }
