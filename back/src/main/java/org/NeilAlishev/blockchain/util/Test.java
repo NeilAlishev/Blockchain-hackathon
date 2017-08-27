@@ -9,6 +9,7 @@ import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
 import org.web3j.protocol.core.DefaultBlockParameterName;
 import org.web3j.protocol.core.methods.response.EthGetBalance;
+import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
 
@@ -46,6 +47,19 @@ public class Test {
         EmploymentHistory contract = loadEmploymentHistory(web3j,
                 "0xe7d0faa2aad267126312ee9fd03a4817668159ff");
 
+        getCurrentEmploymentTest(contract);
+//        actOnPersonTest(contract);
+    }
+
+    private static void actOnPersonTest(EmploymentHistory contract) throws ExecutionException, InterruptedException {
+        TransactionReceipt transactionReceipt = contract
+                .actOnPerson(new Uint256(1), new Uint256(1), new Uint256(0)).get();
+
+        System.out.println(transactionReceipt);
+    }
+
+    private static void getCurrentEmploymentTest(EmploymentHistory contract)
+            throws ExecutionException, InterruptedException {
         Int256 employmentCount = contract.getCurrentEmployment(new Uint256(1)).get();
         System.out.println(employmentCount.getValue());
     }
