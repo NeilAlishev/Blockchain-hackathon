@@ -1,9 +1,5 @@
 pragma solidity ^0.4.16;
 
-
-// import "./Structures.sol";
-
-
 contract EmploymentHistory {
 
     address owner;
@@ -44,10 +40,10 @@ contract EmploymentHistory {
         return peopleToEmpRecords[personId].length;
     }
 
-    function getEmploymentHistory(uint personId) constant returns (uint, uint, EmploymentStatus) {
-        EmpRecord[] storage records = peopleToEmpRecords[personId];
-        return (record.organizationId, record.dateCreated, record.status);
-    }
+    // function getEmploymentHistory(uint personId) constant returns (uint, uint, EmploymentStatus) {
+    //     EmpRecord[] storage records = peopleToEmpRecords[personId];
+    //     return (record.organizationId, record.dateCreated, record.status);
+    // }
 
     function getOrganisationEmployees(uint organizationId) constant returns (uint[]) {
         return organizationsToPeople[organizationId];
