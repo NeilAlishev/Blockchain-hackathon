@@ -51,8 +51,12 @@ contract EmploymentHistory {
         return peopleToEmpRecords[personId].length;
     }
 
-    function getEmploymentHistory(uint personId) constant returns (uint, uint, EmploymentStatus) {
-        EmpRecord[] storage records = peopleToEmpRecords[personId];
+    function getEmploymentHistoryRecordsLength(uint personId) constant returns (uint) {
+        return peopleToEmpRecords[personId].length;
+    }
+
+    function getEmploymentHistory(uint personId, uint recordId) constant returns (uint, uint, EmploymentStatus) {
+        EmpRecord storage record = peopleToEmpRecords[personId][recordId];
         return (record.organizationId, record.dateCreated, record.status);
     }
 
