@@ -30,7 +30,7 @@ contract employmentHistory {
         if (empRecordOf[personId].length == 0) {
             require(status == uint(EmploymentStatus.In));
         } else {
-            EmpRecord storage lastRecord = empRecordOf[personId][empRecordOf[personId].length - 1];
+            EmpRecord memory lastRecord = empRecordOf[personId][empRecordOf[personId].length - 1];
             if (status == uint(EmploymentStatus.In)) {
                 require(uint(lastRecord.status) > uint(EmploymentStatus.In));
             } else {
@@ -44,6 +44,7 @@ contract employmentHistory {
             dateCreated: now,
             status: EmploymentStatus(status)
         }));
+        employeesOf[organizationId].push(personId);
     }
 
     // returns -1 if person is unemployed
@@ -51,7 +52,7 @@ contract employmentHistory {
         if (empRecordOf[personId].length == 0) {
             return -1;
         }
-        EmpRecord storage lastRecord = empRecordOf[personId][empRecordOf[personId].length - 1];
+        EmpRecord memory lastRecord = empRecordOf[personId][empRecordOf[personId].length - 1];
 
         if (lastRecord.status != EmploymentStatus.In) {
             return -1;
@@ -72,4 +73,5 @@ contract employmentHistory {
     function getOrganisationEmployees(uint organizationId) constant returns (uint[]) {
         return employeesOf[organizationId];
     }
+
 }

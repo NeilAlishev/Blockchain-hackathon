@@ -1,24 +1,22 @@
 package org.NeilAlishev.blockchain.util;
 
 import org.NeilAlishev.blockchain.wrapper_files.EmploymentHistory;
+import org.web3j.abi.datatypes.NumericType;
 import org.web3j.abi.datatypes.generated.Int256;
 import org.web3j.abi.datatypes.generated.Uint256;
-import org.web3j.crypto.CipherException;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
 import org.web3j.protocol.Web3j;
-import org.web3j.protocol.core.DefaultBlockParameterName;
-import org.web3j.protocol.core.methods.response.EthGetBalance;
 import org.web3j.protocol.core.methods.response.TransactionReceipt;
 import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import java.util.List;
 import java.util.Properties;
-import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 /**
  * @author Neil Alishev
@@ -31,6 +29,8 @@ public class Test {
     private static String password;
     private static String contractAddress;
 
+    private static EmploymentHistory contract;
+
     public static void main(String[] args) throws Exception {
         Properties prop = new Properties();
         InputStream input = Test.class.getClassLoader().getResourceAsStream("properties/geth.properties");
@@ -42,54 +42,47 @@ public class Test {
 
         Web3j web3j = Web3j.build(new HttpService(networkUrl));
 
-        EmploymentHistory contract = loadEmploymentHistory(web3j, contractAddress);
+        contract = loadEmploymentHistory(web3j, contractAddress);
 
-        addEmpRecordTest(contract);
-        getCurrentEmploymentTest(contract);
-        getEmpRecordsCountTest(contract);
+        addEmpRecordTest();
+        getCurrentEmploymentTest();
+        getEmpRecordsCountTest();
+        getEmployees();
     }
 
-    private static void addEmpRecordTest(EmploymentHistory contract) throws ExecutionException, InterruptedException {
+    private static EmploymentHistory loadEmploymentHistory(Web3j web3j, String contractAddress)
+            throws Exception {
+        Credentials credentials = WalletUtils.loadCredentials(password, walletFile);
+
+        return EmploymentHistory.load(contractAddress, web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT);
+    }
+
+    private static void addEmpRecordTest() throws Exception {
         TransactionReceipt transactionReceipt = contract
                 .addEmpRecord(new Uint256(1), new Uint256(2), new Uint256(0)).get();
 
         System.out.println(transactionReceipt);
+        transactionReceipt = contract
+                .addEmpRecord(new Uint256(2), new Uint256(2), new Uint256(0)).get();
+
+        System.out.println(transactionReceipt);
     }
 
-    private static void getCurrentEmploymentTest(EmploymentHistory contract)
-            throws ExecutionException, InterruptedException {
+    private static void getCurrentEmploymentTest() throws Exception {
         Int256 employmentCount = contract.getCurrentEmployment(new Uint256(1)).get();
         System.out.println(employmentCount.getValue());
     }
 
-    private static void getEmpRecordsCountTest(EmploymentHistory contract)
-            throws ExecutionException, InterruptedException {
+    private static void getEmpRecordsCountTest() throws Exception {
         Uint256 empRecordsCount = contract.getEmpRecordsCount(new Uint256(1)).get();
         System.out.println(empRecordsCount.getValue());
     }
 
-    private static Credentials loadCredentials() throws IOException, CipherException {
-        Credentials credentials = WalletUtils.loadCredentials(password, walletFile);
-        System.out.printf("Account Address: %s\n", credentials.getAddress());
-        System.out.printf("Public Key: %s\n", credentials.getEcKeyPair().getPublicKey().toString(16));
-        System.out.printf("Private Key: %s\n", credentials.getEcKeyPair().getPrivateKey().toString(16));
-        return credentials;
-    }
-
-    private static BigInteger getAccountBalance(Web3j web3j, String address) throws ExecutionException, InterruptedException {
-        EthGetBalance ethGetBalance = web3j
-                .ethGetBalance(address, DefaultBlockParameterName.LATEST)
-                .sendAsync()
-                .get();
-
-        return ethGetBalance.getBalance();
-    }
-
-    private static EmploymentHistory loadEmploymentHistory(Web3j web3j, String contractAddress)
-            throws IOException, CipherException, ExecutionException, InterruptedException {
-        Credentials credentials = WalletUtils.loadCredentials(password,
-                walletFile);
-
-        return EmploymentHistory.load(contractAddress, web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT);
+    private static void getEmployees() throws Exception {
+        List<Integer> employees = contract.getOrganisationEmployees(new Uint256(2))
+                .get().getValue()
+                .stream().map(NumericType::getValue)
+                .map(BigInteger::intValue).collect(Collectors.toList());
+        System.out.println(employees);
     }
 }
