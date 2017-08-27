@@ -4,9 +4,9 @@ contract EmploymentHistory {
 
     address owner;
     // person ids -> person's employment history
-    mapping (uint => EmpRecord[]) public peopleToEmpRecords;
+    mapping (uint => EmpRecord[]) public empRecordOf;
     // organization ids -> list of employees
-    mapping (uint => uint[]) public organizationsToPeople;
+    mapping (uint => uint[]) public employeesOf;
 
     enum EmploymentStatus { In, Out, Fired }
 
@@ -17,19 +17,27 @@ contract EmploymentHistory {
     }
 
     modifier onlyOwner() {
-        if (msg.sender != owner) {throw;}
+        require(msg.sender == owner);
         _;
-        // Will be replaced with function body
     }
 
     function EmploymentHistory() {
         owner = msg.sender;
     }
 
-    function actOnPerson(uint personId, uint organizationId, uint status) {
-        require(uint(EmploymentStatus.Fired) >= status);
+    /* ------- PUBLIC FUNCTIONS ------- */
 
-        peopleToEmpRecords[personId].push(EmpRecord({
+    function addEmpRecord(uint personId, uint organizationId, uint status) {
+        require(status <= uint(EmploymentStatus.Fired));
+        EmpRecord memory lastRecord = getLastRecord(personId);
+        if (status == uint(EmploymentStatus.In)) {
+            require(uint(lastRecord.status) > uint(EmploymentStatus.In));
+        } else {
+            require(uint(lastRecord.status) == uint(EmploymentStatus.In) &&
+                    lastRecord.organizationId == organizationId);
+        }
+
+        empRecordOf[personId].push(EmpRecord({
             organizationId: organizationId,
             dateCreated: now,
             status: EmploymentStatus(status)
@@ -38,34 +46,31 @@ contract EmploymentHistory {
 
     // returns -1 if person is unemployed
     function getCurrentEmployment(uint personId) constant returns (int) {
-        if(peopleToEmpRecords[personId].length == 0) {
-            return -1;
-        }
+        EmpRecord memory lastRecord = getLastRecord(personId);
 
-        EmpRecord storage lastRecord = peopleToEmpRecords[personId][peopleToEmpRecords[personId].length - 1];
-
-        if(lastRecord.status != EmploymentStatus.In) {
+        if (lastRecord.status != EmploymentStatus.In) {
             return -1;
         } else {
             return int(lastRecord.organizationId);
         }
     }
 
-    function getEmploymentCount(uint personId) constant returns (uint) {
-        return peopleToEmpRecords[personId].length;
-    }
-
-    function getEmploymentHistoryRecordsLength(uint personId) constant returns (uint) {
-        return peopleToEmpRecords[personId].length;
+    function getEmpRecordsCount(uint personId) constant returns (uint) {
+        return empRecordOf[personId].length;
     }
 
     function getEmploymentHistory(uint personId, uint recordId) constant returns (uint, uint, EmploymentStatus) {
-        EmpRecord storage record = peopleToEmpRecords[personId][recordId];
+        EmpRecord memory record = empRecordOf[personId][recordId];
         return (record.organizationId, record.dateCreated, record.status);
     }
 
     function getOrganisationEmployees(uint organizationId) constant returns (uint[]) {
-        return organizationsToPeople[organizationId];
+        return employeesOf[organizationId];
     }
 
+    /* ------- INTERNAL FUNCTIONS ------- */
+
+    function getLastRecord(uint personId) internal returns (EmpRecord) {
+        empRecordOf[personId][empRecordOf[personId].length - 1];
+    }
 }
