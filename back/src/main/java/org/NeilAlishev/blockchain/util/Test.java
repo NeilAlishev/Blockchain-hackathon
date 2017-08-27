@@ -84,6 +84,14 @@ public class Test {
                 .collect(Collectors.toList());
     }
 
+    private static void getEmployeesTest() throws Exception {
+        List<Integer> employees = contract.getOrganisationEmployees(new Uint256(2))
+                .get().getValue()
+                .stream().map(NumericType::getValue)
+                .map(BigInteger::intValue).collect(Collectors.toList());
+        System.out.println(employees);
+    }
+
     private static Credentials loadCredentials() throws IOException, CipherException {
         Credentials credentials = WalletUtils.loadCredentials(password, walletFile);
         System.out.printf("Account Address: %s\n", credentials.getAddress());
@@ -107,13 +115,5 @@ public class Test {
                 walletFile);
 
         return EmploymentHistory.load(contractAddress, web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT);
-    }
-
-    private static void getEmployees() throws Exception {
-        List<Integer> employees = contract.getOrganisationEmployees(new Uint256(2))
-                .get().getValue()
-                .stream().map(NumericType::getValue)
-                .map(BigInteger::intValue).collect(Collectors.toList());
-        System.out.println(employees);
     }
 }
