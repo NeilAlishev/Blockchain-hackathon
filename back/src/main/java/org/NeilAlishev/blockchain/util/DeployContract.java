@@ -26,7 +26,7 @@ public class DeployContract {
     public static void main(String[] args) throws Exception {
 
         Properties prop = new Properties();
-        InputStream input = Test.class.getClassLoader().getResourceAsStream("properties/geth.properties");
+        InputStream input = DeployContract.class.getClassLoader().getResourceAsStream("properties/geth.properties");
         prop.load(input);
         walletFilePath = prop.getProperty("walletFilePath");
         networkUrl = prop.getProperty("networkUrl");
