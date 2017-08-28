@@ -2,6 +2,7 @@ package org.NeilAlishev.blockchain.service.impl;
 
 import org.NeilAlishev.blockchain.dto.EmploymentRecord;
 import org.NeilAlishev.blockchain.dto.enums.Status;
+import org.NeilAlishev.blockchain.model.User;
 import org.NeilAlishev.blockchain.repository.UserRepository;
 import org.NeilAlishev.blockchain.service.EthereumService;
 import org.NeilAlishev.blockchain.wrapper_files.EmploymentHistory;
@@ -49,15 +50,16 @@ public class EthereumServiceImpl implements EthereumService {
     }
 
     @Override
-    public int getCurrentEmployment(int personId) throws Exception {
-        return contract.getCurrentEmployment(of(1)).get().getValue().intValue();
+    public User getCurrentEmployment(int personId) throws Exception {
+        Long id = contract.getCurrentEmployment(of(1)).get().getValue().longValue();
+        return userRepository.findOne(id);
     }
 
     @Override
-    public List<Long> getEmploymentHistory(int personId) throws Exception {
+    public List<User> getEmploymentHistory(int personId) throws Exception {
         return contract.getEmploymentHistory(of(1)).get().getValue()
                 .stream().map(NumericType::getValue).map(BigInteger::longValue)
-                .collect(Collectors.toList());
+                .map(userRepository::findOne).collect(Collectors.toList());
     }
 
     @Override
@@ -73,10 +75,10 @@ public class EthereumServiceImpl implements EthereumService {
     }
 
     @Override
-    public List<Long> getOrganisationEmployees(int orgId) throws Exception {
+    public List<User> getOrganisationEmployees(int orgId) throws Exception {
         return contract.getOrganisationEmployees(of(2)).get().getValue()
-                .stream().map(NumericType::getValue)
-                .map(BigInteger::longValue).collect(Collectors.toList());
+                .stream().map(NumericType::getValue).map(BigInteger::longValue)
+                .map(userRepository::findOne).collect(Collectors.toList());
     }
 
     private Uint256 of(int value) {
