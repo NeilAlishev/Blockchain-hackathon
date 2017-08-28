@@ -1,10 +1,8 @@
 <#include "../main_template.ftl"/>
 
 <#macro content>
-Home page
-
 Работники компании:
-    <#if !employees.empty>
+    <#if employees??>
         <#list employees as e>
         ${e.name}
         </#list>
