@@ -32,7 +32,7 @@ public class TestEthereumService {
         ethereumService.addEmpRecord(employee.getId(), admin.getId(), Status.IN);
         System.out.println(ethereumService.getCurrentEmployment(employee.getId()));
         System.out.println(ethereumService.getEmploymentHistory(employee.getId()));
-        System.out.println(ethereumService.getOrganisationEmployees(employer.getId()));
+        System.out.println(ethereumService.getOrganisationEmployees(admin.getId()));
     }
 
 }
