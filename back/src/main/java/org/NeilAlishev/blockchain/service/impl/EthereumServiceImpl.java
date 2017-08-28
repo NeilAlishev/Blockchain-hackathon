@@ -1,10 +1,13 @@
 package org.NeilAlishev.blockchain.service.impl;
 
+import org.NeilAlishev.blockchain.dto.EmploymentRecord;
+import org.NeilAlishev.blockchain.dto.enums.Status;
+import org.NeilAlishev.blockchain.repository.UserRepository;
 import org.NeilAlishev.blockchain.service.EthereumService;
 import org.NeilAlishev.blockchain.wrapper_files.EmploymentHistory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.web3j.abi.datatypes.generated.Int256;
+import org.web3j.abi.datatypes.NumericType;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.Credentials;
 import org.web3j.crypto.WalletUtils;
@@ -13,6 +16,9 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
 
 import java.math.BigInteger;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Aidar Shaifutdinov.
@@ -20,43 +26,61 @@ import java.math.BigInteger;
 @Service
 public class EthereumServiceImpl implements EthereumService {
 
-    private final Web3j web3j;
-    private final Credentials credentials;
+    private final UserRepository userRepository;
 
-    public EthereumServiceImpl(Environment env) throws Exception {
+    private final EmploymentHistory contract;
+
+    public EthereumServiceImpl(Environment env, UserRepository userRepository) throws Exception {
+        this.userRepository = userRepository;
         final String walletFile = env.getProperty("walletFilePath");
         final String networkUrl = env.getProperty("networkUrl");
         final String password = env.getProperty("password");
+        final String contractAddress = env.getProperty("contractAddress");
 
-        web3j = Web3j.build(new HttpService(networkUrl));
-        credentials = WalletUtils.loadCredentials(password, walletFile);
-
-        // health-check
-        System.out.println("Account address: " + credentials.getAddress());
+        Web3j web3j = Web3j.build(new HttpService(networkUrl));
+        Credentials credentials = WalletUtils.loadCredentials(password, walletFile);
+        contract = EmploymentHistory.load(
+                contractAddress, web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT);
     }
 
     @Override
-    public String deployContract() {
-        EmploymentHistory contract = null;
-        try {
-            contract = EmploymentHistory.deploy(web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT, BigInteger.ZERO).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return contract != null ? contract.getContractAddress() : null;
+    public void addEmpRecord(int personId, int orgId, Status status) {
+        contract.addEmpRecord(of(personId), of(orgId), of(status.ordinal()));
     }
 
     @Override
-    public Int256 callContract(String address) {
-        EmploymentHistory contract = EmploymentHistory.load(
-                address, web3j, credentials, Contract.GAS_PRICE, Contract.GAS_LIMIT);
+    public int getCurrentEmployment(int personId) throws Exception {
+        return contract.getCurrentEmployment(of(1)).get().getValue().intValue();
+    }
 
-        try {
-            return contract.getCurrentEmployment(new Uint256(1)).get();
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        }
+    @Override
+    public List<Long> getEmploymentHistory(int personId) throws Exception {
+        return contract.getEmploymentHistory(of(1)).get().getValue()
+                .stream().map(NumericType::getValue).map(BigInteger::longValue)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public EmploymentRecord getEmploymentRecord(int personId, int recordId) throws Exception {
+        List<Long> params = contract.getEmploymentRecord(of(1), of(1)).get()
+                .stream().map(type -> (BigInteger) type.getValue())
+                .map(BigInteger::longValue).collect(Collectors.toList());
+        EmploymentRecord record = new EmploymentRecord();
+        record.setUser(userRepository.findOne(params.get(0)));
+        record.setDate(new Date(params.get(1)));
+        record.setStatus(Status.of(params.get(2).intValue()));
+        return record;
+    }
+
+    @Override
+    public List<Long> getOrganisationEmployees(int orgId) throws Exception {
+        return contract.getOrganisationEmployees(of(2)).get().getValue()
+                .stream().map(NumericType::getValue)
+                .map(BigInteger::longValue).collect(Collectors.toList());
+    }
+
+    private Uint256 of(int value) {
+        return new Uint256(value);
     }
 
 }

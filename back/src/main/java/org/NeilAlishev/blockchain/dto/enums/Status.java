@@ -5,6 +5,10 @@ package org.NeilAlishev.blockchain.dto.enums;
  */
 public enum Status {
 
-    IN, OUT, FIRED
+    IN, OUT, FIRED;
+
+    public static Status of(int ordinal) {
+        return values()[ordinal];
+    }
 
 }

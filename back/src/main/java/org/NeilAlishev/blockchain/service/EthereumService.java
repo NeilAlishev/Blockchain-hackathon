@@ -1,14 +1,23 @@
 package org.NeilAlishev.blockchain.service;
 
-import org.web3j.abi.datatypes.generated.Int256;
+import org.NeilAlishev.blockchain.dto.EmploymentRecord;
+import org.NeilAlishev.blockchain.dto.enums.Status;
+
+import java.util.List;
 
 /**
  * @author Aidar Shaifutdinov.
  */
 public interface EthereumService {
 
-    String deployContract();
+    void addEmpRecord(int personId, int orgId, Status status);
 
-    Int256 callContract(String address);
+    int getCurrentEmployment(int personId) throws Exception;
+
+    List<Long> getEmploymentHistory(int personId) throws Exception;
+
+    EmploymentRecord getEmploymentRecord(int personId, int recordId) throws Exception;
+
+    List<Long> getOrganisationEmployees(int orgId) throws Exception;
 
 }
