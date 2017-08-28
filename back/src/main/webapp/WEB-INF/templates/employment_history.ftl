@@ -55,6 +55,10 @@
     <!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
+
+<#if offer??>
+    <a href="/employee/acceptOffer">Принять приглашение от ${offer.employer.name}</a>
+</#if>
 </#macro>
 
 <@main title="Трудовая книжкаа" scripts=["/resources/landing/js/custom/retrieve_record_data.js"]/>

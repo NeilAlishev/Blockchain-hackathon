@@ -1,6 +1,7 @@
 package org.NeilAlishev.blockchain.service;
 
 import org.NeilAlishev.blockchain.dto.EmploymentRecord;
+import org.NeilAlishev.blockchain.model.Offer;
 
 import java.util.List;
 
@@ -11,6 +12,6 @@ public interface EmployeeService {
 
     EmploymentRecord getCurrentJob();
     List<EmploymentRecord> getRecords();
-    void acceptOffer();
-
+    void acceptOffer() throws Exception;
+    Offer getOffer();
 }

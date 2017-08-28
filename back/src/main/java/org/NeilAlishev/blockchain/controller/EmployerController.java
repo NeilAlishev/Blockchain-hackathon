@@ -39,6 +39,6 @@ public class EmployerController {
     @GetMapping(ApplicationUrls.EMPLOYER_BASE_URL + "/createOffer")
     public String createOffer(@RequestParam(name = "id") Long id) {
         employerService.createOffer(id);
-        return "redirect:/" + ApplicationUrls.EMPLOYER_BASE_URL;
+        return "redirect:" + ApplicationUrls.EMPLOYER_BASE_URL;
     }
 }

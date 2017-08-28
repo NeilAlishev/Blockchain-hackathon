@@ -22,17 +22,17 @@ public class TestEthereumService {
         this.userRepository = userRepository;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void testEthereumService() throws Exception {
         User employee = userRepository.findOne(1L);
         User employer = userRepository.findOne(2L);
         User admin = userRepository.findOne(3L);
-        ethereumService.addEmpRecord(employee.getId(), employer.getId(), Status.IN);
-        ethereumService.addEmpRecord(employee.getId(), employer.getId(), Status.OUT);
-        ethereumService.addEmpRecord(employee.getId(), admin.getId(), Status.IN);
+//        ethereumService.addEmpRecord(employee.getId(), employer.getId(), Status.IN);
+//        ethereumService.addEmpRecord(employee.getId(), employer.getId(), Status.OUT);
+//        ethereumService.addEmpRecord(employee.getId(), admin.getId(), Status.IN);
         System.out.println(ethereumService.getCurrentEmployment(employee.getId()));
         System.out.println(ethereumService.getEmploymentHistory(employee.getId()));
-        System.out.println(ethereumService.getOrganisationEmployees(admin.getId()));
+        System.out.println(ethereumService.getOrganisationEmployees(employer.getId()));
     }
 
 }

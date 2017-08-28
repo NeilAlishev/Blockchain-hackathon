@@ -42,10 +42,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void acceptOffer() {
+    public void acceptOffer() throws Exception {
         Offer offer = offerRepository.findByEmployeeAndOfferStatus(SecurityUtils.getPrincipal(), OfferStatus.PENDING);
         offer.setOfferStatus(OfferStatus.ACCEPTED);
         ethereumService.addEmpRecord(offer.getEmployee().getId(), offer.getEmployer().getId(), Status.IN);
         offerRepository.save(offer);
+    }
+
+    @Override
+    public Offer getOffer() {
+        return offerRepository.findByEmployeeAndOfferStatus(SecurityUtils.getPrincipal(), OfferStatus.PENDING);
     }
 }

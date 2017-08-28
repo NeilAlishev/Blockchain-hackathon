@@ -41,8 +41,7 @@ public class EmployerServiceImpl implements EmployerService {
 
     @Override
     public List<EmploymentRecord> getEmployeeRecords(Long userId) throws Exception {
-        List<User> organizationIds = ethereumService.getEmploymentHistory(Math.toIntExact(userId));
-        return null;
+        return ethereumService.getEmploymentHistory(Math.toIntExact(userId));
     }
 
     @Override

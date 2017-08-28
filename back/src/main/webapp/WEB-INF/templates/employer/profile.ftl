@@ -6,7 +6,7 @@
     Работники компании:
     <#if employees??>
         <#list employees as e>
-            <#if e.name??>
+            <#if e??>
             ${e.name}
             </#if>
         </#list>
@@ -25,6 +25,22 @@
     Найти работника:
     <input id="js-search-employee" onchange="getPeople(value)"/>
     <div id="js-found-employees"></div>
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div>
+    <#if offers??>
+        <#list offers as o>
+            В ожидании ответа от ${o.employee.name}<br/>
+        </#list>
+    </#if>
 </div>
 </#macro>
 
