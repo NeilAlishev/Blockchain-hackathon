@@ -53,4 +53,9 @@ public class EmployeeServiceImpl implements EmployeeService {
     public Offer getOffer() {
         return offerRepository.findByEmployeeAndOfferStatus(SecurityUtils.getPrincipal(), OfferStatus.PENDING);
     }
+
+    @Override
+    public void fire() throws Exception {
+        ethereumService.addEmpRecord(SecurityUtils.getPrincipal().getId(), ethereumService.getCurrentEmployment(SecurityUtils.getPrincipal().getId()).getId(), Status.OUT);
+    }
 }

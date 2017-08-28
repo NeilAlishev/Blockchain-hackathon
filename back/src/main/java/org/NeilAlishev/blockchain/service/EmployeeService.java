@@ -14,4 +14,5 @@ public interface EmployeeService {
     List<EmploymentRecord> getRecords();
     void acceptOffer() throws Exception;
     Offer getOffer();
+    void fire() throws Exception;
 }

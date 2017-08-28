@@ -61,4 +61,10 @@ public class EmployeeController {
         employeeService.acceptOffer();
         return "redirect:" + ApplicationUrls.EMPLOYEE_BASE_URL;
     }
+
+    @GetMapping(ApplicationUrls.EMPLOYEE_BASE_URL + "/requestFire")
+    public String reqFire() throws Exception {
+        employeeService.fire();
+        return "redirect:" + ApplicationUrls.EMPLOYEE_BASE_URL;
+    }
 }

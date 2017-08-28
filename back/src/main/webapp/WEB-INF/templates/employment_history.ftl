@@ -7,6 +7,8 @@
   </div>
 </div>
 
+<#assign curJob = false/>
+
 <div class="row">
   <div class="col-lg-12">
     <div class="panel panel-info">
@@ -34,6 +36,7 @@
                       <td>${record.dateFrom?date} - ${record.dateTo?date}</td>
                     <#else>
                       <td>${record.dateFrom?date} - настоящее время</td>
+                      <#assign curJob=true/>
                     </#if>
                   <td>${record.status}</td>
                 </tr>
@@ -41,14 +44,18 @@
             </tbody>
           </table>
         </div>
-          <#if offer??>
-            <a href="/employee/acceptOffer" style="border:4px solid red; padding: 5px;">
-              Принять приглашение от ${offer.employer.name}
-            </a>
-          </#if>
       </div>
     </div>
   </div>
+  <#if curJob>
+      <a href="/employee/requestFire">Уволиться</a>
+  <#else>
+  <#if offer??>
+      <a href="/employee/acceptOffer" style="border:4px solid red; padding: 5px;">
+          Принять приглашение от ${offer.employer.name}
+      </a>
+  </#if>
+  </#if>
 </div>
 </#macro>
 
