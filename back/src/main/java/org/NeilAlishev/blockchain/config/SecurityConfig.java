@@ -52,4 +52,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(authProvider);
     }
+
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.inMemoryAuthentication().withUser("employer").password("password").roles("EMPLOYER");
+        auth.inMemoryAuthentication().withUser("ployee").password("password").roles("EMPLOYEE");
+    }
 }
