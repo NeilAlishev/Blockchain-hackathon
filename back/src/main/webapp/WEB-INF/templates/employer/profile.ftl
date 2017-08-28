@@ -6,7 +6,9 @@
     Работники компании:
     <#if employees??>
         <#list employees as e>
-        ${e.name}
+            <#if e.name??>
+            ${e.name}
+            </#if>
         </#list>
     </#if>
 </div>

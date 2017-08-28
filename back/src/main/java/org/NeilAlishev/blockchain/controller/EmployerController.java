@@ -26,6 +26,7 @@ public class EmployerController {
     @GetMapping(ApplicationUrls.EMPLOYER_BASE_URL)
     public String getProfile(Model model) throws Exception {
         model.addAttribute("employees", employerService.getEmployees());
+        model.addAttribute("offers", employerService.getPendingOffers());
         return "employer/profile";
     }
 
@@ -33,5 +34,11 @@ public class EmployerController {
     public String getEmployerService(@RequestParam(name = "name") String name, Model model) throws Exception {
         model.addAttribute("emps", employerService.getPossibleEmployees(name));
         return "employer/people";
+    }
+
+    @GetMapping(ApplicationUrls.EMPLOYER_BASE_URL + "/createOffer")
+    public String createOffer(@RequestParam(name = "id") Long id) {
+        employerService.createOffer(id);
+        return "redirect:/" + ApplicationUrls.EMPLOYER_BASE_URL;
     }
 }

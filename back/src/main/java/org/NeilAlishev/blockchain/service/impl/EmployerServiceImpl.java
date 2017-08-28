@@ -61,4 +61,9 @@ public class EmployerServiceImpl implements EmployerService {
         return userRepository.findByNameStartingWithAndRole(name, Role.EMPLOYEE)
                 .stream().filter(user -> !employees.contains(user)).collect(Collectors.toList());
     }
+
+    @Override
+    public List<Offer> getPendingOffers() {
+        return offerRepository.findByEmployerAndOfferStatus(SecurityUtils.getPrincipal(), OfferStatus.PENDING);
+    }
 }
