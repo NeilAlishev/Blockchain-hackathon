@@ -4,10 +4,10 @@ import org.NeilAlishev.blockchain.model.User;
 import org.NeilAlishev.blockchain.model.enums.Role;
 import org.NeilAlishev.blockchain.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.event.ContextRefreshedEvent;
-import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
 
 /**
  * @author Aidar Shaifutdinov.
@@ -25,7 +25,7 @@ public class InitializeDbTask {
         this.passwordEncoder = passwordEncoder;
     }
 
-    @EventListener(ContextRefreshedEvent.class)
+    @PostConstruct
     public void initializeDb() {
         String password = passwordEncoder.encode("password");
         // add users
