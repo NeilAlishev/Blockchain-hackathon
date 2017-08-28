@@ -4,8 +4,6 @@ import org.NeilAlishev.blockchain.repository.UserRepository;
 import org.NeilAlishev.blockchain.service.EthereumService;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
-
 /**
  * @author Aidar Shaifutdinov.
  */
@@ -20,7 +18,7 @@ public class TestEthereumService {
         this.userRepository = userRepository;
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void testEthereumService() throws Exception {
 //        User employee = userRepository.findOne(1L);
 //
@@ -39,6 +37,10 @@ public class TestEthereumService {
 //        System.out.println(ethereumService.getCurrentEmployment(employee.getId()));
 //        System.out.println(ethereumService.getEmploymentHistory(employee.getId()));
 //        System.out.println(ethereumService.getOrganisationEmployees(employer3.getId()));
+
+//        ethereumService.addEmpRecord(employee.getId(), employer.getId(), Status.IN);
+//        ethereumService.addEmpRecord(employee.getId(), employer.getId(), Status.OUT);
+//        ethereumService.addEmpRecord(employee.getId(), admin.getId(), Status.IN);
     }
 
 }

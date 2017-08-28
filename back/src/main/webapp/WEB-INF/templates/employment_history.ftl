@@ -36,6 +36,10 @@
     </div>
     <!-- /.table-responsive -->
 </div>
+
+<#if offer??>
+    <a href="/employee/acceptOffer">Принять приглашение от ${offer.employer.name}</a>
+</#if>
 </#macro>
 
 <@main title="Трудовая книжка"/>

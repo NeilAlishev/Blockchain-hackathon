@@ -2,6 +2,7 @@ package org.NeilAlishev.blockchain.controller;
 
 import org.NeilAlishev.blockchain.dto.EmploymentRecord;
 import org.NeilAlishev.blockchain.dto.EmploymentRecordView;
+import org.NeilAlishev.blockchain.service.EmployeeService;
 import org.NeilAlishev.blockchain.service.EthereumService;
 import org.NeilAlishev.blockchain.util.ApplicationUrls;
 import org.NeilAlishev.blockchain.util.SecurityUtils;
@@ -20,13 +21,16 @@ import java.util.List;
 public class EmployeeController {
 
     private final EthereumService ethereumService;
+    private final EmployeeService employeeService;
 
     @Autowired
-    public EmployeeController(EthereumService ethereumService) {
+    public EmployeeController(EthereumService ethereumService, EmployeeService employeeService) {
         this.ethereumService = ethereumService;
+        this.employeeService = employeeService;
     }
 
     @GetMapping(ApplicationUrls.EMPLOYEE_BASE_URL)
+
     public String getEmployeeHistory(Model model) throws Exception {
         model.addAttribute("records",
                 transform(ethereumService.getEmploymentHistory(SecurityUtils.getPrincipal().getId())));
@@ -49,5 +53,11 @@ public class EmployeeController {
         }
 
         return result;
+    }
+
+    @GetMapping(ApplicationUrls.EMPLOYEE_BASE_URL + "/acceptOffer")
+    public String acceptOffer() throws Exception {
+        employeeService.acceptOffer();
+        return "redirect:" + ApplicationUrls.EMPLOYEE_BASE_URL;
     }
 }

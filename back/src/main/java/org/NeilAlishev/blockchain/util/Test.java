@@ -47,12 +47,11 @@ public class Test {
 
         contract = loadEmploymentHistoryContract(web3j, contractAddress);
 
-        addEmpRecordTest(contract, new Uint256(1), new Uint256(2), new Uint256(0));
-        addEmpRecordTest(contract, new Uint256(1), new Uint256(2), new Uint256(1));
-        addEmpRecordTest(contract, new Uint256(1), new Uint256(3), new Uint256(0));
+//        addEmpRecordTest(contract, new Uint256(1), new Uint256(2), new Uint256(0));
+//        addEmpRecordTest(contract, new Uint256(1), new Uint256(2), new Uint256(1));
+//        addEmpRecordTest(contract, new Uint256(1), new Uint256(3), new Uint256(0));
 
 
-//        System.out.println(getEmploymentRecord(contract));
 //        System.out.println(getEmploymentHistoryTest(contract));
 //        getCurrentEmploymentTest(contract);
 //        getEmpRecordsCountTest(contract);
