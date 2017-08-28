@@ -61,12 +61,11 @@ public class EthereumServiceImpl implements EthereumService {
         List<Long> params = contract.getEmploymentHistory(of(personId)).get().getValue()
                 .stream().map(NumericType::getValue)
                 .map(BigInteger::longValue).collect(Collectors.toList());
-        System.out.println(params);
         List<EmploymentRecord> result = new ArrayList<>();
         for (int i = 0; i < params.size(); i += 3) {
             EmploymentRecord record = new EmploymentRecord();
             record.setUser(userRepository.findOne(params.get(i)));
-            record.setDate(new Date(params.get(i + 1)));
+            record.setDate(new Date(params.get(i + 1) * 1000));
             record.setStatus(Status.of(params.get(i + 2).intValue()));
             result.add(record);
         }
