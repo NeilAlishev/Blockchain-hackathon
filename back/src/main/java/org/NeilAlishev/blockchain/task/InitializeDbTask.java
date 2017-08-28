@@ -30,9 +30,14 @@ public class InitializeDbTask {
         String password = passwordEncoder.encode("password");
         // add users
         if (userRepository.findOne(1L) == null) {
-            userRepository.save(new User("Иван, Типичный гражданин", "employee", password, Role.EMPLOYEE));
-            userRepository.save(new User("Вагиз, управляет работниками", "employer", password, Role.EMPLOYER));
-            userRepository.save(new User("Рустам, следит за порядком", "admin", password, Role.ADMIN));
+            userRepository.save(new User("Ivan", "employee", password, Role.EMPLOYEE, null, null, null));
+
+            userRepository.save(new User("IT-Park", "employer1", password, Role.EMPLOYER, "Казань", "IT", "Младший python разработчик"));
+            userRepository.save(new User("ACI", "employer2", password, Role.EMPLOYER, "Казань", "IT & Banking", "Associate software engineer"));
+            userRepository.save(new User("Flatstack", "employer3", password, Role.EMPLOYER, "Казань", "IT", "RoR - разработчик"));
+            userRepository.save(new User("ВШ ИТИС", "employer4", password, Role.EMPLOYER, "Казань", "IT & Образование", "Учитель по информатике"));
+
+            userRepository.save(new User("Rustem", "admin", password, Role.ADMIN, null, null, null));
         }
     }
 

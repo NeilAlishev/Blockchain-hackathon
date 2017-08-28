@@ -24,14 +24,23 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    private String city;
+
+    private String category;
+
+    private String position;
+
     public User() {
     }
 
-    public User(String name, String email, String password, Role role) {
+    public User(String name, String email, String password, Role role, String city, String category, String position) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.role = role;
+        this.city = city;
+        this.category = category;
+        this.position = position;
     }
 
     public long getId() {
@@ -74,6 +83,30 @@ public class User {
         this.role = role;
     }
 
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -82,31 +115,9 @@ public class User {
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
                 ", role=" + role +
+                ", city='" + city + '\'' +
+                ", category='" + category + '\'' +
+                ", position='" + position + '\'' +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof User)) return false;
-
-        User user = (User) o;
-
-        if (getId() != user.getId()) return false;
-        if (getName() != null ? !getName().equals(user.getName()) : user.getName() != null) return false;
-        if (getEmail() != null ? !getEmail().equals(user.getEmail()) : user.getEmail() != null) return false;
-        if (getPassword() != null ? !getPassword().equals(user.getPassword()) : user.getPassword() != null)
-            return false;
-        return getRole() == user.getRole();
-    }
-
-    @Override
-    public int hashCode() {
-        int result = (int) (getId() ^ (getId() >>> 32));
-        result = 31 * result + (getName() != null ? getName().hashCode() : 0);
-        result = 31 * result + (getEmail() != null ? getEmail().hashCode() : 0);
-        result = 31 * result + (getPassword() != null ? getPassword().hashCode() : 0);
-        result = 31 * result + (getRole() != null ? getRole().hashCode() : 0);
-        return result;
     }
 }
