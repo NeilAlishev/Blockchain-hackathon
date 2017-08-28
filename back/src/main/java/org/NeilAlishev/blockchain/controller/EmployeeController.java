@@ -34,6 +34,7 @@ public class EmployeeController {
     public String getEmployeeHistory(Model model) throws Exception {
         model.addAttribute("records",
                 transform(ethereumService.getEmploymentHistory(SecurityUtils.getPrincipal().getId())));
+        model.addAttribute("offer", employeeService.getOffer());
         return "employment_history";
     }
 

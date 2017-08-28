@@ -38,7 +38,9 @@
 </div>
 
 <#if offer??>
-    <a href="/employee/acceptOffer">Принять приглашение от ${offer.employer.name}</a>
+    <a href="/employee/acceptOffer" style="border:4px solid red; padding: 5px;">
+        Принять приглашение от ${offer.employer.name}
+    </a>
 </#if>
 </#macro>
 
