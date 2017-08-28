@@ -4,6 +4,7 @@ import org.NeilAlishev.blockchain.dto.EmploymentRecord;
 import org.NeilAlishev.blockchain.model.Offer;
 import org.NeilAlishev.blockchain.model.User;
 import org.NeilAlishev.blockchain.model.enums.OfferStatus;
+import org.NeilAlishev.blockchain.model.enums.Role;
 import org.NeilAlishev.blockchain.repository.OfferRepository;
 import org.NeilAlishev.blockchain.repository.UserRepository;
 import org.NeilAlishev.blockchain.service.EmployerService;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author aleksandrpliskin on 28.08.17.
@@ -51,5 +53,12 @@ public class EmployerServiceImpl implements EmployerService {
         offer.setEmployee(userRepository.findOne(userId));
         offer.setOfferStatus(OfferStatus.PENDING);
         offerRepository.save(offer);
+    }
+
+    @Override
+    public List<User> getPossibleEmployees(String name) throws Exception {
+        List<User> employees = getEmployees();
+        return userRepository.findByNameStartingWithAndRole(name, Role.EMPLOYEE)
+                .stream().filter(user -> !employees.contains(user)).collect(Collectors.toList());
     }
 }

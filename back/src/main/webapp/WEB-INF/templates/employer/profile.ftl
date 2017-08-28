@@ -21,9 +21,9 @@
 
 <div style="float: none">
     Найти работника:
-    <input id="js-search-employee" onchange=""/>
+    <input id="js-search-employee" onchange="getPeople(value)"/>
     <div id="js-found-employees"></div>
 </div>
 </#macro>
 
-<@main title="profile" scripts="resources/js/employer.js"/>
+<@main title="profile" scripts=["resources/js/employer.js"]/>

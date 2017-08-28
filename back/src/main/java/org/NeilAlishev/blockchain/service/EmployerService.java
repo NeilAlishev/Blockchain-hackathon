@@ -13,5 +13,5 @@ public interface EmployerService {
     List<User> getEmployees() throws Exception;
     List<EmploymentRecord> getEmployeeRecords(Long userId) throws Exception;
     void createOffer(Long userId);
-
+    List<User> getPossibleEmployees(String name) throws Exception;
 }

@@ -7,6 +7,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author aleksandrpliskin on 28.08.17.
@@ -28,4 +29,9 @@ public class EmployerController {
         return "employer/profile";
     }
 
+    @GetMapping(ApplicationUrls.EMPLOYER_BASE_URL + "/getEmployees")
+    public String getEmployerService(@RequestParam(name = "name") String name, Model model) throws Exception {
+        model.addAttribute("emps", employerService.getPossibleEmployees(name));
+        return "employer/people";
+    }
 }
