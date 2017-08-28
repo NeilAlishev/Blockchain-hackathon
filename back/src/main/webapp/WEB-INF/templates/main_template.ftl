@@ -36,7 +36,7 @@
 <body>
 <div id="wrapper">
 
-  <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+  <nav class="navbar navbar-default navbar-static-top" style="margin-bottom: 0">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
         <span class="sr-only">Toggle navigation</span>
@@ -44,7 +44,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Employee!</a>
+      <a class="navbar-brand" href="#">Job tracking</a>
     </div>
 
     <ul class="nav navbar-top-links navbar-right">
@@ -63,10 +63,31 @@
         </ul>
       </li>
     </ul>
+
+    <div class="navbar-default sidebar" role="navigation">
+      <div class="sidebar-nav navbar-collapse">
+        <ul class="nav" id="side-menu">
+          <li class="sidebar-search">
+            <div class="input-group custom-search-form">
+              <input type="text" class="form-control" placeholder="Search...">
+              <span class="input-group-btn">
+                                    <button class="btn btn-default" type="button">
+                                        <i class="fa fa-search"></i>
+                                    </button>
+                                </span>
+            </div>
+            <!-- /input-group -->
+          </li>
+          <li>
+            <a href="#"><i class="fa fa-home fa-fw"></i>Home</a>
+          </li>
+        </ul>
+      </div>
+    </div>
   </nav>
 
-  <div style="margin:20px;">
-      <@content/>
+  <div id="page-wrapper">
+    <@content/>
 
     <div class="row">
       <div class="col-lg-6" style="height: 300px">
@@ -85,9 +106,9 @@
 <!-- Custom Theme JavaScript -->
 <script src="/resources/landing/dist/js/sb-admin-2.js"></script>
 
-    <#list scripts as script>
-    <script type="application/javascript" src="${script}"></script>
-    </#list>
+<#list scripts as script>
+<script type="application/javascript" src="${script}"></script>
+</#list>
 
 </body>
 </#macro>

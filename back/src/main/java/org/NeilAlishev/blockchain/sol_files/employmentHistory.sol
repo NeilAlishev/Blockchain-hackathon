@@ -3,16 +3,20 @@ pragma solidity ^0.4.15;
 contract employmentHistory {
 
     // person ids -> person's employment history
-    mapping (uint => EmpRecord[]) public empRecordOf;
+    mapping (address => EmpRecord[]) public empRecordOf;
     // organization ids -> list of employees
-    mapping (uint => uint[]) public employeesOf;
+    mapping (address => address[]) public employeesOf;
 
     enum EmploymentStatus { In, Out, Fired }
 
     struct EmpRecord {
-        uint organizationId;
+        address organization;
         uint dateCreated;
         EmploymentStatus status;
+    }
+
+    function offer(address employee) {
+        
     }
 
     function addEmpRecord(uint personId, uint organizationId, uint status) {

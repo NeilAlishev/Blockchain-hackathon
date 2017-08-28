@@ -1,46 +1,50 @@
 <#include "../main_template.ftl"/>
 
-
 <#macro content>
-<div style="float: left">
-    Работники компании:
-    <#if employees??>
-        <#list employees as e>
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">Информация о компании</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-lg-12">
+    <#if employees?? && employees?has_content>
+      <div class="panel panel-green">
+        <div class="panel-heading">
+          Сотрудники компании
+        </div>
+        <div class="panel-body">
+          <#list employees as e>
             <#if e??>
-            ${e.name} <a href="employer/fire?id=${e.id}">уволить</a>
+              <p class="lead">${e.name}</p>
             </#if>
-        </#list>
+          </#list>
+        </div>
+      </div>
     </#if>
-</div>
-
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-
-<div style="float: none">
-    Найти работника:
-    <input id="js-search-employee" onchange="getPeople(value)"/>
-    <div id="js-found-employees"></div>
-</div>
-
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-
-<div>
-    <#if offers??>
-        <#list offers as o>
+    <div class="panel panel-info">
+      <div class="panel-heading">
+        Найти специалиста:
+      </div>
+      <div class="panel-body">
+        <input id="js-search-employee" onchange="getPeople(value)"/>
+        <div id="js-found-employees"></div>
+      </div>
+    </div>
+    <#if offers?? && offers?has_content>
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          Отправленные офферы:
+        </div>
+        <div class="panel-body">
+          <#list offers as o>
             В ожидании ответа от ${o.employee.name}<br/>
-        </#list>
+          </#list>
+        </div>
+      </div>
     </#if>
+  </div>
 </div>
 </#macro>
 

@@ -1,47 +1,55 @@
 <#include "main_template.ftl"/>
 
 <#macro content>
-<h1>Трудовая книжка</h1>
+<div class="row">
+  <div class="col-lg-12">
+    <h1 class="page-header">Трудовая книжка</h1>
+  </div>
+</div>
 
-<div class="panel-body">
-    <div class="table-responsive">
-        <table class="table table-hover">
+<div class="row">
+  <div class="col-lg-12">
+    <div class="panel panel-info">
+      <div class="panel-body">
+        <div class="dataTable_wrapper">
+          <table class="table table-striped table-bordered table-hover" id="dataTables-example">
             <thead>
             <tr>
-                <th>Название</th>
-                <th>Город</th>
-                <th>Категория</th>
-                <th>Позиция</th>
-                <th>Период работы</th>
-                <th>Статус</th>
+              <th>Название</th>
+              <th>Город</th>
+              <th>Категория</th>
+              <th>Позиция</th>
+              <th>Период работы</th>
+              <th>Статус</th>
             </tr>
             </thead>
             <tbody>
                 <#list records as record>
                 <tr>
-                    <td>${record.user.name}</td>
-                    <td>${record.user.city}</td>
-                    <td>${record.user.category}</td>
-                    <td>${record.user.position}</td>
+                  <td>${record.user.name}</td>
+                  <td>${record.user.city}</td>
+                  <td>${record.user.category}</td>
+                  <td>${record.user.position}</td>
                     <#if record.dateTo??>
-                        <td>${record.dateFrom?date} - ${record.dateTo?date}</td>
+                      <td>${record.dateFrom?date} - ${record.dateTo?date}</td>
                     <#else>
-                        <td>${record.dateFrom?date} - настоящее время</td>
+                      <td>${record.dateFrom?date} - настоящее время</td>
                     </#if>
-                    <td>${record.status}</td>
+                  <td>${record.status}</td>
                 </tr>
                 </#list>
             </tbody>
-        </table>
+          </table>
+        </div>
+          <#if offer??>
+            <a href="/employee/acceptOffer" style="border:4px solid red; padding: 5px;">
+              Принять приглашение от ${offer.employer.name}
+            </a>
+          </#if>
+      </div>
     </div>
-    <!-- /.table-responsive -->
+  </div>
 </div>
-
-<#if offer??>
-    <a href="/employee/acceptOffer" style="border:4px solid red; padding: 5px;">
-        Принять приглашение от ${offer.employer.name}
-    </a>
-</#if>
 </#macro>
 
 <@main title="Трудовая книжка"/>
