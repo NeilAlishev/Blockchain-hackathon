@@ -19,8 +19,8 @@ public class Offer {
     private User employee;
 
     @OneToOne
-    @JoinColumn(name = "organization_id")
-    private Organization organization;
+    @JoinColumn(name = "employer_id")
+    private User employer;
 
     @Column(name = "creation_date")
     private Long creationDate;
@@ -72,11 +72,11 @@ public class Offer {
         this.employee = employee;
     }
 
-    public Organization getOrganization() {
-        return organization;
+    public User getEmployer() {
+        return employer;
     }
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
+    public void setEmployer(User employer) {
+        this.employer = employer;
     }
 }
