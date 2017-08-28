@@ -13,5 +13,6 @@ public interface EmployerService {
     List<EmploymentRecord> getEmployeeRecords(User user);
     List<EmploymentRecord> getEmployeeRecords(Long userId);
     void createOffer(User user);
+    List<User> getEmployees();
 
 }

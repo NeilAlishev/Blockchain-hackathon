@@ -31,9 +31,7 @@ import java.util.stream.Collectors;
 public class Test {
 
     private static File walletFile;
-    private static String networkUrl;
     private static String password;
-    private static String contractAddress;
 
     private static EmploymentHistory contract;
 
@@ -42,9 +40,9 @@ public class Test {
         InputStream input = Test.class.getClassLoader().getResourceAsStream("properties/geth.properties");
         prop.load(input);
         walletFile = new File(prop.getProperty("walletFilePath"));
-        networkUrl = prop.getProperty("networkUrl");
+        String networkUrl = prop.getProperty("networkUrl");
         password = prop.getProperty("password");
-        contractAddress = prop.getProperty("contractAddress");
+        String contractAddress = prop.getProperty("contractAddress");
 
         Web3j web3j = Web3j.build(new HttpService(networkUrl));
 
@@ -70,11 +68,6 @@ public class Test {
     private static void getCurrentEmploymentTest() throws Exception {
         Int256 employmentCount = contract.getCurrentEmployment(new Uint256(1)).get();
         System.out.println(employmentCount.getValue());
-    }
-
-    private static void getEmpRecordsCountTest() throws Exception {
-        Uint256 empRecordsCount = contract.getEmpRecordsCount(new Uint256(1)).get();
-        System.out.println(empRecordsCount.getValue());
     }
 
     private static List<Long> getEmploymentHistoryTest(EmploymentHistory contract)

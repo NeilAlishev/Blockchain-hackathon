@@ -20,7 +20,7 @@ public class EmployeeController {
         this.employeeService = employeeService;
     }
 
-    @GetMapping(ApplicationUrls.EMPLOYEE_HISTORY_BASE_URL)
+    @GetMapping(ApplicationUrls.EMPLOYEE_BASE_URL)
     public String getEmployeeHistory(Model model) {
 //        model.addAttribute("records", employeeService.getRecords());
         return "employment_history";

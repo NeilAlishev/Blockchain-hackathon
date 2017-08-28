@@ -11,6 +11,10 @@ public interface ApplicationUrls {
 
     String PROFILE_BASE_URL = "/profile";
 
-    String EMPLOYEE_HISTORY_BASE_URL = "/employee";
+    String EMPLOYEE_BASE_URL = "/employee";
+
+    String EMPLOYER_BASE_URL = "/employer";
+
+    String ADMIN_BASE_URL = "/admin";
 
 }

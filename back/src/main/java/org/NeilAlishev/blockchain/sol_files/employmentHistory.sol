@@ -61,15 +61,11 @@ contract employmentHistory {
         }
     }
 
-    function getEmpRecordsCount(uint personId) constant returns (uint) {
-        return empRecordOf[personId].length;
-    }
-
     function getEmploymentHistory(uint personId) constant returns (uint[]) {
         EmpRecord[] memory records = empRecordOf[personId];
         uint[] memory result = new uint[](records.length);
 
-        for(uint i = 0; i < records.length; i++) {
+        for (uint i = 0; i < records.length; i++) {
             result[i] = records[i].organizationId;
         }
 

@@ -1,27 +1,26 @@
 package org.NeilAlishev.blockchain.dto;
 
 import org.NeilAlishev.blockchain.dto.enums.Status;
-import org.NeilAlishev.blockchain.model.Organization;
 import org.NeilAlishev.blockchain.model.User;
+
+import java.util.Date;
 
 /**
  * @author aleksandrpliskin on 28.08.17.
  */
 public class EmploymentRecord {
 
-    private Long date;
+    private Date date;
 
     private Status status;
 
     private User user;
 
-    private Organization organization;
-
-    public Long getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(Long date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -39,13 +38,5 @@ public class EmploymentRecord {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public Organization getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
     }
 }
