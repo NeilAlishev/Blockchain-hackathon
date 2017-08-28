@@ -76,6 +76,11 @@ contract employmentHistory {
         return result;
     }
 
+    function getEmploymentRecord(uint personId, uint recordId) constant returns (uint, uint, EmploymentStatus) {
+        EmpRecord memory record = empRecordOf[personId][recordId];
+        return (record.organizationId, record.dateCreated, record.status);
+    }
+
     function getOrganisationEmployees(uint organizationId) constant returns (uint[]) {
         return employeesOf[organizationId];
     }

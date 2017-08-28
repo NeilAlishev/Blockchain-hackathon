@@ -14,8 +14,6 @@ public class EmploymentRecord {
 
     private User user;
 
-    private
-
     public Long getDate() {
         return date;
     }

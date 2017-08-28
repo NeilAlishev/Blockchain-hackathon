@@ -3,6 +3,7 @@ package org.NeilAlishev.blockchain.util;
 import org.NeilAlishev.blockchain.wrapper_files.EmploymentHistory;
 import org.web3j.abi.datatypes.DynamicArray;
 import org.web3j.abi.datatypes.NumericType;
+import org.web3j.abi.datatypes.Type;
 import org.web3j.abi.datatypes.generated.Int256;
 import org.web3j.abi.datatypes.generated.Uint256;
 import org.web3j.crypto.CipherException;
@@ -53,7 +54,9 @@ public class Test {
         addEmpRecordTest(contract, new Uint256(1), new Uint256(2), new Uint256(1));
         addEmpRecordTest(contract, new Uint256(1), new Uint256(3), new Uint256(0));
 
-        System.out.println(getEmploymentHistoryTest(contract));
+
+        System.out.println(getEmploymentRecord(contract));
+//        System.out.println(getEmploymentHistoryTest(contract));
 //        getCurrentEmploymentTest(contract);
 //        getEmpRecordsCountTest(contract);
 
@@ -81,6 +84,16 @@ public class Test {
         return organizationIds
                 .getValue()
                 .stream().map(NumericType::getValue).map(BigInteger::longValue)
+                .collect(Collectors.toList());
+    }
+
+    private static List<Long> getEmploymentRecord(EmploymentHistory contract)
+            throws ExecutionException, InterruptedException {
+        List<Type> employmentRecord = contract.getEmploymentRecord(new Uint256(1), new Uint256(1)).get();
+
+        return employmentRecord
+                .stream()
+                .map(type -> (BigInteger) type.getValue()).map(BigInteger::longValue)
                 .collect(Collectors.toList());
     }
 
