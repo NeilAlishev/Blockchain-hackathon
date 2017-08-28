@@ -10,9 +10,8 @@ import java.util.List;
  */
 public interface EmployerService {
 
-    List<EmploymentRecord> getEmployeeRecords(User user);
-    List<EmploymentRecord> getEmployeeRecords(Long userId);
-    void createOffer(User user);
-    List<User> getEmployees();
+    List<User> getEmployees() throws Exception;
+    List<EmploymentRecord> getEmployeeRecords(Long userId) throws Exception;
+    void createOffer(Long userId);
 
 }

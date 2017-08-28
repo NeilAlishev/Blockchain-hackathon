@@ -23,7 +23,7 @@ public class EmployerController {
 
     @Secured(value = "ROLE_EMPLOYER")
     @GetMapping(ApplicationUrls.EMPLOYER_BASE_URL)
-    public String getProfile(Model model) {
+    public String getProfile(Model model) throws Exception {
         model.addAttribute("employees", employerService.getEmployees());
         return "employer/profile";
     }
