@@ -16,7 +16,7 @@ public class EmployeeController {
     @Autowired
     EmployeeService employmentService;
 
-    @GetMapping(ApplicationUrls.EMPLOYEE_HISTORY_BASE_URL)
+    @GetMapping(ApplicationUrls.EMPLOYEE_BASE_URL)
     public String getEmployeeHistory(Model model) {
         model.addAttribute("records", employmentService.getRecords());
         return "";

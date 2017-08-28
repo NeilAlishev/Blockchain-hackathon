@@ -9,6 +9,7 @@ import java.util.List;
 /**
  * @author aleksandrpliskin on 28.08.17.
  */
+//TODO make secured
 public class EmployerServiceImpl implements EmployerService {
 
     @Override
@@ -24,5 +25,10 @@ public class EmployerServiceImpl implements EmployerService {
     @Override
     public void createOffer(User user) {
 
+    }
+
+    @Override
+    public List<User> getEmployees() {
+        return null;
     }
 }
