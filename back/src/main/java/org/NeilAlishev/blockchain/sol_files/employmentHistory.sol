@@ -62,18 +62,16 @@ contract employmentHistory {
 
     function getEmploymentHistory(uint personId) constant returns (uint[]) {
         EmpRecord[] memory records = empRecordOf[personId];
-        uint[] memory result = new uint[](records.length);
+        uint[] memory result = new uint[](records.length * 3);
 
         for (uint i = 0; i < records.length; i++) {
-            result[i] = records[i].organizationId;
+            uint index = i * 3;
+            result[index] = records[i].organizationId;
+            result[index + 1] = records[i].dateCreated;
+            result[index + 2] = uint(records[i].status);
         }
 
         return result;
-    }
-
-    function getEmploymentRecord(uint personId, uint recordId) constant returns (uint, uint, EmploymentStatus) {
-        EmpRecord memory record = empRecordOf[personId][recordId];
-        return (record.organizationId, record.dateCreated, record.status);
     }
 
     function getOrganisationEmployees(uint organizationId) constant returns (uint[]) {

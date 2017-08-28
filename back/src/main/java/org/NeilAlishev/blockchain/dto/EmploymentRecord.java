@@ -39,4 +39,14 @@ public class EmploymentRecord {
     public void setUser(User user) {
         this.user = user;
     }
+
+    @Override
+    public String toString() {
+        return "EmploymentRecord{" +
+                "date=" + date +
+                ", status=" + status +
+                ", user=" + user +
+                '}';
+    }
+
 }

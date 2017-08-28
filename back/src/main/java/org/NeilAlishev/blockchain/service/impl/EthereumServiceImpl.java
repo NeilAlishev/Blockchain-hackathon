@@ -17,6 +17,7 @@ import org.web3j.protocol.http.HttpService;
 import org.web3j.tx.Contract;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,8 +46,8 @@ public class EthereumServiceImpl implements EthereumService {
     }
 
     @Override
-    public void addEmpRecord(long personId, long orgId, Status status) {
-        contract.addEmpRecord(of(personId), of(orgId), of(status.ordinal()));
+    public void addEmpRecord(long personId, long orgId, Status status) throws Exception {
+        contract.addEmpRecord(of(personId), of(orgId), of(status.ordinal())).get();
     }
 
     @Override
@@ -56,22 +57,20 @@ public class EthereumServiceImpl implements EthereumService {
     }
 
     @Override
-    public List<User> getEmploymentHistory(long personId) throws Exception {
-        return contract.getEmploymentHistory(of(personId)).get().getValue()
-                .stream().map(NumericType::getValue).map(BigInteger::longValue)
-                .map(userRepository::findOne).collect(Collectors.toList());
-    }
-
-    @Override
-    public EmploymentRecord getEmploymentRecord(long personId, long recordId) throws Exception {
-        List<Long> params = contract.getEmploymentRecord(of(personId), of(recordId)).get()
-                .stream().map(type -> (BigInteger) type.getValue())
+    public List<EmploymentRecord> getEmploymentHistory(long personId) throws Exception {
+        List<Long> params = contract.getEmploymentHistory(of(personId)).get().getValue()
+                .stream().map(NumericType::getValue)
                 .map(BigInteger::longValue).collect(Collectors.toList());
-        EmploymentRecord record = new EmploymentRecord();
-        record.setUser(userRepository.findOne(params.get(0)));
-        record.setDate(new Date(params.get(1)));
-        record.setStatus(Status.of(params.get(2).intValue()));
-        return record;
+        System.out.println(params);
+        List<EmploymentRecord> result = new ArrayList<>();
+        for (int i = 0; i < params.size(); i += 3) {
+            EmploymentRecord record = new EmploymentRecord();
+            record.setUser(userRepository.findOne(params.get(i)));
+            record.setDate(new Date(params.get(i + 1)));
+            record.setStatus(Status.of(params.get(i + 2).intValue()));
+            result.add(record);
+        }
+        return result;
     }
 
     @Override
