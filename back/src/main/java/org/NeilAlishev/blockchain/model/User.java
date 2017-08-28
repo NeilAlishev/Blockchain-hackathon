@@ -28,6 +28,16 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Set<Role> roles;
 
+    public User() {
+    }
+
+    public User(String name, String email, String password, Set<Role> roles) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.roles = roles;
+    }
+
     public long getId() {
         return id;
     }
