@@ -1,9 +1,15 @@
 package org.NeilAlishev.blockchain.service.impl;
 
 import org.NeilAlishev.blockchain.dto.EmploymentRecord;
+import org.NeilAlishev.blockchain.dto.enums.Status;
+import org.NeilAlishev.blockchain.model.Offer;
 import org.NeilAlishev.blockchain.model.User;
+import org.NeilAlishev.blockchain.model.enums.OfferStatus;
+import org.NeilAlishev.blockchain.repository.OfferRepository;
 import org.NeilAlishev.blockchain.service.EmployeeService;
+import org.NeilAlishev.blockchain.service.EthereumService;
 import org.NeilAlishev.blockchain.util.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,6 +19,15 @@ import java.util.List;
  */
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
+
+    private final OfferRepository offerRepository;
+    private final EthereumService ethereumService;
+
+    @Autowired
+    public EmployeeServiceImpl(OfferRepository offerRepository, EthereumService ethereumService) {
+        this.offerRepository = offerRepository;
+        this.ethereumService = ethereumService;
+    }
 
     @Override
     public EmploymentRecord getCurrentJob() {
@@ -27,7 +42,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public void acceptOffer() {
+    public void acceptOffer() throws Exception {
+        Offer offer = offerRepository.findByEmployeeAndOfferStatus(SecurityUtils.getPrincipal(), OfferStatus.PENDING);
+        offer.setOfferStatus(OfferStatus.ACCEPTED);
+        ethereumService.addEmpRecord(offer.getEmployee().getId(), offer.getEmployer().getId(), Status.IN);
+        offerRepository.save(offer);
+    }
 
+    @Override
+    public Offer getOffer() {
+        return offerRepository.findByEmployeeAndOfferStatus(SecurityUtils.getPrincipal(), OfferStatus.PENDING);
     }
 }
