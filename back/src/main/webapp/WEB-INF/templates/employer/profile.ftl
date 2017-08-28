@@ -1,12 +1,29 @@
 <#include "../main_template.ftl"/>
 
+
 <#macro content>
-Работники компании:
+<div style="float: left">
+    Работники компании:
     <#if employees??>
         <#list employees as e>
         ${e.name}
         </#list>
     </#if>
+</div>
+
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+
+<div style="float: none">
+    Найти работника:
+    <input id="js-search-employee" onchange=""/>
+    <div id="js-found-employees"></div>
+</div>
 </#macro>
 
-<@main title="profile"/>
+<@main title="profile" scripts="resources/js/employer.js"/>

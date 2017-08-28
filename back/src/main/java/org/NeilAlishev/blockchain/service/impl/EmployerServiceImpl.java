@@ -14,12 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.stream.Collectors;
 
 /**
  * @author aleksandrpliskin on 28.08.17.
  */
-//TODO make secured
 @Service
 public class EmployerServiceImpl implements EmployerService {
 
@@ -36,13 +34,12 @@ public class EmployerServiceImpl implements EmployerService {
 
     @Override
     public List<User> getEmployees() throws Exception {
-        return ethereumService.getOrganisationEmployees((int) SecurityUtils.getPrincipal().getId())
-                .stream().map(userRepository::findOne).collect(Collectors.toList());
+        return ethereumService.getOrganisationEmployees((int) SecurityUtils.getPrincipal().getId());
     }
 
     @Override
     public List<EmploymentRecord> getEmployeeRecords(Long userId) throws Exception {
-        List<Long> organizationIds = ethereumService.getEmploymentHistory(Math.toIntExact(userId));
+        List<User> organizationIds = ethereumService.getEmploymentHistory(Math.toIntExact(userId));
         return null;
     }
 
