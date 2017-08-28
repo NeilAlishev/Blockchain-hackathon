@@ -1,7 +1,6 @@
 package org.NeilAlishev.blockchain.dto;
 
 import org.NeilAlishev.blockchain.dto.enums.Status;
-import org.NeilAlishev.blockchain.model.Organization;
 import org.NeilAlishev.blockchain.model.User;
 
 /**
@@ -13,9 +12,9 @@ public class EmploymentRecord {
 
     private Status status;
 
-    private User user;
+    private User employee;
 
-    private Organization organization;
+    private User employer;
 
     public Long getDate() {
         return date;
@@ -33,19 +32,19 @@ public class EmploymentRecord {
         this.status = status;
     }
 
-    public User getUser() {
-        return user;
+    public User getEmployee() {
+        return employee;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setEmployee(User employee) {
+        this.employee = employee;
     }
 
-    public Organization getOrganization() {
-        return organization;
+    public User getEmployer() {
+        return employer;
     }
 
-    public void setOrganization(Organization organization) {
-        this.organization = organization;
+    public void setEmployer(User employer) {
+        this.employer = employer;
     }
 }
