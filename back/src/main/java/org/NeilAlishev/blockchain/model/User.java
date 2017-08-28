@@ -3,18 +3,16 @@ package org.NeilAlishev.blockchain.model;
 import org.NeilAlishev.blockchain.model.enums.Role;
 
 import javax.persistence.*;
-import java.util.Set;
 
 /**
  * @author aleksandrpliskin on 28.08.17.
  */
 @Entity
 @Table(name = "users")
-@SequenceGenerator(name = "users_gen", sequenceName = "users_seq", allocationSize = 1)
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_gen")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String name;
@@ -23,11 +21,18 @@ public class User {
 
     private String password;
 
-    @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
-    @CollectionTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id"))
-    @Column(name = "role", nullable = false)
     @Enumerated(EnumType.STRING)
-    private Set<Role> roles;
+    private Role role;
+
+    public User() {
+    }
+
+    public User(String name, String email, String password, Role role) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = role;
+    }
 
     public long getId() {
         return id;
@@ -61,11 +66,11 @@ public class User {
         this.password = password;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public Role getRole() {
+        return role;
     }
 
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

@@ -119,6 +119,12 @@
             <version>0.9.5.2</version>
         </dependency>
 
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+
         <!-- Jackson -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
@@ -193,39 +199,6 @@
             <version>4.2.2.RELEASE</version>
         </dependency>
     </dependencies>
-
-    <profiles>
-        <profile>
-            <id>db-migration</id>
-            <activation>
-                <activeByDefault>false</activeByDefault>
-            </activation>
-            <build>
-                <plugins>
-                    <plugin>
-                        <groupId>org.liquibase</groupId>
-                        <artifactId>liquibase-maven-plugin</artifactId>
-                        <version>3.5.3</version>
-                        <executions>
-                            <execution>
-                                <id>default-cli</id>
-                                <phase>process-resources</phase>
-                                <configuration>
-                                    <changeLogFile>${basedir}/src/main/resources/db/init.xml</changeLogFile>
-                                    <propertyFileWillOverride>false</propertyFileWillOverride>
-                                    <dropFirst>false</dropFirst>
-                                    <propertyFile>${basedir}/src/main/resources/properties/liquibase.properties</propertyFile>
-                                </configuration>
-                                <goals>
-                                    <goal>update</goal>
-                                </goals>
-                            </execution>
-                        </executions>
-                    </plugin>
-                </plugins>
-            </build>
-        </profile>
-    </profiles>
 
     <build>
         <plugins>

@@ -15,8 +15,9 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @EnableScheduling
 @ComponentScan(basePackages = {
-        "org.NeilAlishev.blockchain.service",
-        "org.NeilAlishev.blockchain.util"})
+        "org.NeilAlishev.blockchain.service", "org.NeilAlishev.blockchain.util",
+        "org.NeilAlishev.blockchain.task"
+})
 @PropertySource("classpath:properties/geth.properties")
 public class CoreConfig {
 
