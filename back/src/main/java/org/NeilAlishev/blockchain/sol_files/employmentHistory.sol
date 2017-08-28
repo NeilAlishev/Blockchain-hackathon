@@ -2,7 +2,6 @@ pragma solidity ^0.4.15;
 
 contract employmentHistory {
 
-    address owner;
     // person ids -> person's employment history
     mapping (uint => EmpRecord[]) public empRecordOf;
     // organization ids -> list of employees
@@ -14,15 +13,6 @@ contract employmentHistory {
         uint organizationId;
         uint dateCreated;
         EmploymentStatus status;
-    }
-
-    modifier onlyOwner() {
-        require(msg.sender == owner);
-        _;
-    }
-
-    function employmentHistory() {
-        owner = msg.sender;
     }
 
     function addEmpRecord(uint personId, uint organizationId, uint status) {
@@ -44,7 +34,16 @@ contract employmentHistory {
             dateCreated: now,
             status: EmploymentStatus(status)
         }));
-        employeesOf[organizationId].push(personId);
+        uint[] storage employeesOfOrg = employeesOf[organizationId];
+        if (status == uint(EmploymentStatus.In)) {
+            employeesOfOrg.push(personId);
+        } else {
+            for (uint i = 0; i < employeesOfOrg.length; i++) {
+                if (employeesOfOrg[i] == personId) {
+                    delete employeesOfOrg[i];
+                }
+            }
+        }
     }
 
     // returns -1 if person is unemployed
@@ -80,5 +79,4 @@ contract employmentHistory {
     function getOrganisationEmployees(uint organizationId) constant returns (uint[]) {
         return employeesOf[organizationId];
     }
-
 }
