@@ -8,53 +8,34 @@
         <table class="table table-hover">
             <thead>
             <tr>
-                <th>#</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Username</th>
+                <th>Название</th>
+                <th>Город</th>
+                <th>Категория</th>
+                <th>Позиция</th>
+                <th>Период работы</th>
+                <th>Статус</th>
             </tr>
             </thead>
             <tbody>
-            <tr data-toggle="modal" data-target="#myModal" data-id="1" class="show-record-info">
-                <td>1</td>
-                <td>Mark</td>
-                <td>Otto</td>
-                <td>@mdo</td>
-            </tr>
-            <tr data-toggle="modal" data-target="#myModal" data-id="2" class="show-record-info">
-                <td>2</td>
-                <td>Jacob</td>
-                <td>Thornton</td>
-                <td>@fat</td>
-            </tr>
-            <tr>
-                <td>3</td>
-                <td>Larry</td>
-                <td>the Bird</td>
-                <td>@twitter</td>
-            </tr>
+                <#list records as record>
+                <tr>
+                    <td>${record.user.name}</td>
+                    <td>${record.user.city}</td>
+                    <td>${record.user.category}</td>
+                    <td>${record.user.position}</td>
+                    <#if record.dateTo??>
+                        <td>${record.dateFrom?date} - ${record.dateTo?date}</td>
+                    <#else>
+                        <td>${record.dateFrom?date} - настоящее время</td>
+                    </#if>
+                    <td>${record.status}</td>
+                </tr>
+                </#list>
             </tbody>
         </table>
     </div>
     <!-- /.table-responsive -->
 </div>
-
-<!-- Modal -->
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h4 class="modal-title" id="myModalLabel">Трудовая запись</h4>
-            </div>
-            <div class="modal-body" id="modal-message-area">
-            </div>
-        </div>
-        <!-- /.modal-content -->
-    </div>
-    <!-- /.modal-dialog -->
-</div>
-<!-- /.modal -->
 </#macro>
 
-<@main title="Трудовая книжкаа" scripts=["/resources/landing/js/custom/retrieve_record_data.js"]/>
+<@main title="Трудовая книжка"/>
