@@ -45,26 +45,26 @@ public class EthereumServiceImpl implements EthereumService {
     }
 
     @Override
-    public void addEmpRecord(int personId, int orgId, Status status) {
+    public void addEmpRecord(long personId, long orgId, Status status) {
         contract.addEmpRecord(of(personId), of(orgId), of(status.ordinal()));
     }
 
     @Override
-    public User getCurrentEmployment(int personId) throws Exception {
-        Long id = contract.getCurrentEmployment(of(1)).get().getValue().longValue();
+    public User getCurrentEmployment(long personId) throws Exception {
+        Long id = contract.getCurrentEmployment(of(personId)).get().getValue().longValue();
         return userRepository.findOne(id);
     }
 
     @Override
-    public List<User> getEmploymentHistory(int personId) throws Exception {
-        return contract.getEmploymentHistory(of(1)).get().getValue()
+    public List<User> getEmploymentHistory(long personId) throws Exception {
+        return contract.getEmploymentHistory(of(personId)).get().getValue()
                 .stream().map(NumericType::getValue).map(BigInteger::longValue)
                 .map(userRepository::findOne).collect(Collectors.toList());
     }
 
     @Override
-    public EmploymentRecord getEmploymentRecord(int personId, int recordId) throws Exception {
-        List<Long> params = contract.getEmploymentRecord(of(1), of(1)).get()
+    public EmploymentRecord getEmploymentRecord(long personId, long recordId) throws Exception {
+        List<Long> params = contract.getEmploymentRecord(of(personId), of(recordId)).get()
                 .stream().map(type -> (BigInteger) type.getValue())
                 .map(BigInteger::longValue).collect(Collectors.toList());
         EmploymentRecord record = new EmploymentRecord();
@@ -75,13 +75,13 @@ public class EthereumServiceImpl implements EthereumService {
     }
 
     @Override
-    public List<User> getOrganisationEmployees(int orgId) throws Exception {
-        return contract.getOrganisationEmployees(of(2)).get().getValue()
+    public List<User> getOrganisationEmployees(long orgId) throws Exception {
+        return contract.getOrganisationEmployees(of(orgId)).get().getValue()
                 .stream().map(NumericType::getValue).map(BigInteger::longValue)
                 .map(userRepository::findOne).collect(Collectors.toList());
     }
 
-    private Uint256 of(int value) {
+    private Uint256 of(long value) {
         return new Uint256(value);
     }
 

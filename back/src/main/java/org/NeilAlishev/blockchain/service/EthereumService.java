@@ -11,14 +11,14 @@ import java.util.List;
  */
 public interface EthereumService {
 
-    void addEmpRecord(int personId, int orgId, Status status);
+    void addEmpRecord(long personId, long orgId, Status status);
 
-    User getCurrentEmployment(int personId) throws Exception;
+    User getCurrentEmployment(long personId) throws Exception;
 
-    List<User> getEmploymentHistory(int personId) throws Exception;
+    List<User> getEmploymentHistory(long personId) throws Exception;
 
-    EmploymentRecord getEmploymentRecord(int personId, int recordId) throws Exception;
+    EmploymentRecord getEmploymentRecord(long personId, long recordId) throws Exception;
 
-    List<User> getOrganisationEmployees(int orgId) throws Exception;
+    List<User> getOrganisationEmployees(long orgId) throws Exception;
 
 }
