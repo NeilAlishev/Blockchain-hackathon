@@ -8,10 +8,10 @@ import java.util.List;
 /**
  * @author aleksandrpliskin on 28.08.17.
  */
-public interface EmploymentService {
-
-    EmploymentRecord getEmployeeCurrentJob();
+public interface EmployeerService {
 
     List<EmploymentRecord> getEmployeeRecords(User user);
+    List<EmploymentRecord> getEmployeeRecords(Long userId);
+    void createOffer(User user);
 
 }
