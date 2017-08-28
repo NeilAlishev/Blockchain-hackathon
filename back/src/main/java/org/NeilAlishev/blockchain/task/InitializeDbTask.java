@@ -29,7 +29,7 @@ public class InitializeDbTask {
     public void initializeDb() {
         String password = passwordEncoder.encode("password");
         // add users
-        if (userRepository.findOne((long) 1) == null) {
+        if (userRepository.findOne(1L) == null) {
             userRepository.save(new User("Ivan", "employee", password, Role.EMPLOYEE));
             userRepository.save(new User("Vagiz", "employer", password, Role.EMPLOYER));
             userRepository.save(new User("Rustem", "admin", password, Role.ADMIN));
