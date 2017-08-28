@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * @author aleksandrpliskin on 28.08.17.
  */
-public interface EmployeerService {
+public interface EmployerService {
 
     List<EmploymentRecord> getEmployeeRecords(User user);
     List<EmploymentRecord> getEmployeeRecords(Long userId);

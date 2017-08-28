@@ -8,11 +8,10 @@ import javax.persistence.*;
  * @author aleksandrpliskin on 28.08.17.
  */
 @Entity
-@SequenceGenerator(name = "offer_gen", sequenceName = "offer_seq", allocationSize = 1)
 public class Offer {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "offer_gen")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     private User employee;

@@ -25,4 +25,9 @@ public class EmployeeServiceImpl implements EmployeeService {
         User user = SecurityUtils.getPrincipal();
         return null;
     }
+
+    @Override
+    public void acceptOffer() {
+
+    }
 }

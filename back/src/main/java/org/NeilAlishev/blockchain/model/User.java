@@ -10,11 +10,10 @@ import java.util.Set;
  */
 @Entity
 @Table(name = "users")
-@SequenceGenerator(name = "users_gen", sequenceName = "users_seq", allocationSize = 1)
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "users_gen")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String name;

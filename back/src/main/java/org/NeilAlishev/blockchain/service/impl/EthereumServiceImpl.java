@@ -1,5 +1,6 @@
-package org.NeilAlishev.blockchain.service;
+package org.NeilAlishev.blockchain.service.impl;
 
+import org.NeilAlishev.blockchain.service.EthereumService;
 import org.NeilAlishev.blockchain.wrapper_files.EmploymentHistory;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
