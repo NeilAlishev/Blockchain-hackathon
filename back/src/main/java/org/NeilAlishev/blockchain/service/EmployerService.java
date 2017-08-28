@@ -16,4 +16,5 @@ public interface EmployerService {
     void createOffer(Long userId);
     List<User> getPossibleEmployees(String name) throws Exception;
     List<Offer> getPendingOffers();
+    void fire(Long userId) throws Exception;
 }

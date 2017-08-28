@@ -1,6 +1,7 @@
 package org.NeilAlishev.blockchain.service.impl;
 
 import org.NeilAlishev.blockchain.dto.EmploymentRecord;
+import org.NeilAlishev.blockchain.dto.enums.Status;
 import org.NeilAlishev.blockchain.model.Offer;
 import org.NeilAlishev.blockchain.model.User;
 import org.NeilAlishev.blockchain.model.enums.OfferStatus;
@@ -58,11 +59,18 @@ public class EmployerServiceImpl implements EmployerService {
     public List<User> getPossibleEmployees(String name) throws Exception {
         List<User> employees = getEmployees();
         return userRepository.findByNameStartingWithAndRole(name, Role.EMPLOYEE)
-                .stream().filter(user -> !employees.contains(user)).collect(Collectors.toList());
+                .stream().filter(user -> !employees.contains(user))
+                .filter(user -> offerRepository.findByEmployeeAndOfferStatus(user, OfferStatus.PENDING) == null)
+                .collect(Collectors.toList());
     }
 
     @Override
     public List<Offer> getPendingOffers() {
         return offerRepository.findByEmployerAndOfferStatus(SecurityUtils.getPrincipal(), OfferStatus.PENDING);
+    }
+
+    @Override
+    public void fire(Long userId) throws Exception {
+        ethereumService.addEmpRecord(userId, SecurityUtils.getPrincipal().getId(), Status.FIRED);
     }
 }

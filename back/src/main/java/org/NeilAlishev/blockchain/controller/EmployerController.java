@@ -41,4 +41,10 @@ public class EmployerController {
         employerService.createOffer(id);
         return "redirect:" + ApplicationUrls.EMPLOYER_BASE_URL;
     }
+
+    @GetMapping(ApplicationUrls.EMPLOYER_BASE_URL + "/fire")
+    public String fire(@RequestParam(name = "id") Long id) throws Exception {
+        employerService.fire(id);
+        return "redirect:" + ApplicationUrls.EMPLOYER_BASE_URL;
+    }
 }

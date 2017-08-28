@@ -7,7 +7,7 @@
     <#if employees??>
         <#list employees as e>
             <#if e??>
-            ${e.name}
+            ${e.name} <a href="employer/fire?id=${e.id}">уволить</a>
             </#if>
         </#list>
     </#if>
