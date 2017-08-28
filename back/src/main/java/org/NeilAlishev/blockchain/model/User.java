@@ -106,4 +106,18 @@ public class User {
     public void setPosition(String position) {
         this.position = position;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", role=" + role +
+                ", city='" + city + '\'' +
+                ", category='" + category + '\'' +
+                ", position='" + position + '\'' +
+                '}';
+    }
 }
