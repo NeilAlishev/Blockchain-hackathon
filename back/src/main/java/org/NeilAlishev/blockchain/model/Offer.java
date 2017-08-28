@@ -14,6 +14,8 @@ public class Offer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @OneToOne
+    @JoinColumn(name = "employee_id")
     private User employee;
 
     @OneToOne
