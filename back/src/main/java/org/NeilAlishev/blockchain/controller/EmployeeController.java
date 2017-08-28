@@ -23,6 +23,13 @@ public class EmployeeController {
     @GetMapping(ApplicationUrls.EMPLOYEE_BASE_URL)
     public String getEmployeeHistory(Model model) {
 //        model.addAttribute("records", employeeService.getRecords());
+
         return "employment_history";
+    }
+
+    @GetMapping(ApplicationUrls.EMPLOYEE_BASE_URL + "/acceptOffer")
+    public String acceptOffer() {
+        employeeService.acceptOffer();
+        return "redirect:/" + ApplicationUrls.EMPLOYEE_BASE_URL;
     }
 }

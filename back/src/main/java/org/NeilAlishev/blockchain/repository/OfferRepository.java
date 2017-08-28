@@ -14,4 +14,5 @@ import java.util.List;
 @Repository
 public interface OfferRepository extends JpaRepository<Offer, Long> {
     List<Offer> findByEmployerAndOfferStatus(User employer, OfferStatus offerStatus);
+    Offer findByEmployeeAndOfferStatus(User employee, OfferStatus offerStatus);
 }
